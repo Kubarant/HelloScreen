@@ -1,0 +1,44 @@
+{
+    "coord": {
+        "lon": 23.12,
+        "lat": 50.16
+    },
+    
+"weather": [
+        {
+            "id": 800,
+            "main": "Clear",
+            "description": "clear sky",
+            "icon": "01n"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 277.15,
+        "pressure": 1012,
+        "humidity": 55,
+        "temp_min": 277.15,
+        "temp_max": 277.15
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 3,
+        "deg": 150
+    },
+    "clouds": {
+        "all": 0
+    },
+    "dt": 1521997200,
+    
+"sys": {
+        "type": 1,
+        "id": 7361,
+        "message": 0.005,
+        "country": "PL",
+        "sunrise": 1521951493,
+        "sunset": 1521996558
+    },
+    "id": 765932,
+    "name": "Lubaczow",
+    "cod": 200
+}

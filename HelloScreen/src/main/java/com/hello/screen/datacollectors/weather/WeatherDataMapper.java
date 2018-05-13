@@ -1,4 +1,4 @@
-package com.hello.screen;
+package com.hello.screen.datacollectors.weather;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hello.screen.JsonUtil;
 import com.hello.screen.model.WeatherData;
+import com.hello.screen.utils.DateUtil;
 
 @Service
 public class WeatherDataMapper {
@@ -27,11 +29,11 @@ public class WeatherDataMapper {
 			long windSpeed = node.path("wind").path("speed").asLong();
 			float snow = node.at("/snow/3h").isDouble()?node.at("/snow/3h").floatValue():0;
 			
-			float rain = node.at("/rain/3h").isFloat()?node.at("/rain/3h").floatValue():0;
+			float rain = node.at("/rain/3h").isDouble()?node.at("/rain/3h").floatValue():0;
 			LocalDateTime date= DateUtil.dateOfUnixTimestamp(node.path("dt").asLong());
 			LocalDateTime sunrise= DateUtil.dateOfUnixTimestamp(node.path("sys").path("sunrise").asLong());
 			LocalDateTime sunset= DateUtil.dateOfUnixTimestamp(node.path("sys").path("sunset").asLong());
-			return new WeatherData(temp, pressure, humidity, visibility, windSpeed, date, sunrise, sunset, weather, snow, rain);
+			return new WeatherData(temp, pressure, humidity, visibility, windSpeed, date, sunrise, sunset,LocalDateTime.now(), weather, snow, rain);
 		}
 		
 		public static ArrayList<WeatherData> recieveWeatherDataFromNodes(ArrayList<JsonNode> nodes){

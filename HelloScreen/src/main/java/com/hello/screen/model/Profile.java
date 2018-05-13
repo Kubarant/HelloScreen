@@ -1,14 +1,20 @@
 package com.hello.screen.model;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.hello.screen.utils.ListUtil;
 
 @Document
 public class Profile {
@@ -17,8 +23,9 @@ public class Profile {
 	private String name;
 	private List<String> keywords;
 	private List<Product> products;
-	private List<String> prefferedCategories;	
+	private List<String> prefferedCategories;
 	private List<News> news;
+	public List<CategoryPreferences> prefferedCategoriess;
 
 	public Profile(String name, List<String> keywords) {
 		super();
@@ -66,13 +73,16 @@ public class Profile {
 
 	public List<News> filterPrefferedNews(Map<String, List<News>> news) {
 		List<News> interesting = prefferedCategories.stream().map(pcat -> news.get(pcat)).filter(el -> el != null)
-				.map(list -> list.subList(0, Math.min(list.size(), 7))).
-				reduce((l1, l2) -> {l1.addAll(l2);return l1;}).get();
-		
+				.map(list -> list.subList(0, Math.min(list.size(), 7))).reduce((l1, l2) -> {
+					l1.addAll(l2);
+					return l1;
+				}).get();
+
 		Collections.shuffle(interesting);
 
 		return interesting;
 	}
+
 
 	public String getName() {
 		return name;
@@ -121,6 +131,5 @@ public class Profile {
 	public void setNews(List<News> news) {
 		this.news = news;
 	}
-	
 
 }

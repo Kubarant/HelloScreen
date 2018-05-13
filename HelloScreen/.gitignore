@@ -23,3 +23,11 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+### Other ###
+jaunt_cache
+imgosy
+src/**/icons/*.jpg
+src/**/icons/*.png
+@material
+material-components-web

@@ -16,19 +16,16 @@ public class WeatherData {
 	private LocalDateTime date;
 	private LocalDateTime sunrise;
 	private LocalDateTime sunset;
+	private LocalDateTime creation;
 	private String weather;
 	private float snow;
 	private float rain;
 
 	private @Id String id;
-	
-	
 
-	
-	
-	
 	public WeatherData(float temp, int pressure, int humidity, int visibility, long windSpeed, LocalDateTime date,
-			LocalDateTime sunrise, LocalDateTime sunset, String weather, float snow, float rain, String id) {
+			LocalDateTime sunrise, LocalDateTime sunset, LocalDateTime creation, String weather, float snow,
+			float rain) {
 		super();
 		this.temp = temp;
 		this.pressure = pressure;
@@ -38,61 +35,58 @@ public class WeatherData {
 		this.date = date;
 		this.sunrise = sunrise;
 		this.sunset = sunset;
+		this.creation = creation;
+		this.weather = weather;
+		this.snow = snow;
+		this.rain = rain;
+	}
+
+	public WeatherData(float temp, int pressure, int humidity, int visibility, long windSpeed, LocalDateTime date,
+			LocalDateTime sunrise, LocalDateTime sunset, LocalDateTime creation, String weather, float snow, float rain,
+			String id) {
+		super();
+		this.temp = temp;
+		this.pressure = pressure;
+		this.humidity = humidity;
+		this.visibility = visibility;
+		this.windSpeed = windSpeed;
+		this.date = date;
+		this.sunrise = sunrise;
+		this.sunset = sunset;
+		this.creation = creation;
 		this.weather = weather;
 		this.snow = snow;
 		this.rain = rain;
 		this.id = id;
 	}
-	
-	
-
-	public WeatherData(float temp, int pressure, int humidity, int visibility, long windSpeed, LocalDateTime date,
-			LocalDateTime sunrise, LocalDateTime sunset, String weather, float snow, float rain) {
-		super();
-		this.temp = temp;
-		this.pressure = pressure;
-		this.humidity = humidity;
-		this.visibility = visibility;
-		this.windSpeed = windSpeed;
-		this.date = date;
-		this.sunrise = sunrise;
-		this.sunset = sunset;
-		this.weather = weather;
-		this.snow = snow;
-		this.rain = rain;
-	}
-
-
 
 	public WeatherData() {
 		super();
 	}
 
+	public LocalDateTime getCreation() {
+		return creation;
+	}
 
+	public void setCreation(LocalDateTime creation) {
+		this.creation = creation;
+	}
 
 	public float getSnow() {
 		return snow;
 	}
 
-
-
 	public void setSnow(float snow) {
 		this.snow = snow;
 	}
-
-
 
 	public float getRain() {
 		return rain;
 	}
 
-
-
 	public void setRain(float rain) {
 		this.rain = rain;
 	}
-
-
 
 	public String getWeather() {
 		return weather;
@@ -109,8 +103,6 @@ public class WeatherData {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	
 
 	public float getTemp() {
 		return temp;
@@ -176,16 +168,12 @@ public class WeatherData {
 		this.sunset = sunset;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "WeatherData [temp=" + temp + ", pressure=" + pressure + ", humidity=" + humidity + ", visibility="
 				+ visibility + ", windSpeed=" + windSpeed + ", date=" + date + ", sunrise=" + sunrise + ", sunset="
 				+ sunset + ", weather=" + weather + ", snow=" + snow + ", rain=" + rain + ", id=" + id + "]";
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -204,8 +192,6 @@ public class WeatherData {
 		result = prime * result + (int) (windSpeed ^ (windSpeed >>> 32));
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -252,8 +238,5 @@ public class WeatherData {
 			return false;
 		return true;
 	}
-
-
-	
 
 }

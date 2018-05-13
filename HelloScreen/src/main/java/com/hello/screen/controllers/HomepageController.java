@@ -1,12 +1,9 @@
-package com.hello.screen;
-
-import java.time.LocalDateTime;
+package com.hello.screen.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.hello.screen.model.WeatherData;
 import com.hello.screen.repository.ReactiveWeatherRepository;
 @Controller
 public class HomepageController {
@@ -18,8 +15,16 @@ public class HomepageController {
 	@GetMapping("/ho")
 	public String hom() {
 		
+		
 		return "index";
 		
 	}
 	
+	@GetMapping("/profile")
+	public String profile() {
+		
+		
+		return "profile";
+		
+	}
 }

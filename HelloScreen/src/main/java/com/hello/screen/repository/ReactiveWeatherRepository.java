@@ -8,5 +8,4 @@ public interface ReactiveWeatherRepository extends ReactiveCrudRepository<Weathe
 	   
 	   
 
-
 }

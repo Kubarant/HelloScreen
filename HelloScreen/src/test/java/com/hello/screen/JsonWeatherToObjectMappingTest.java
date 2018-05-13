@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.hello.screen.datacollectors.weather.WeatherDataMapper;
 import com.hello.screen.model.WeatherData;
 
 @RunWith(SpringRunner.class)
@@ -37,12 +38,12 @@ public class JsonWeatherToObjectMappingTest {
 
 	}
 
-	@Test
+	@Test  
 	public void currentWeatherMappingTest() throws IOException {
 		WeatherData weatherData = dataMapper.currentWeatherFromJson(currentWeatherJson).get();
 
 		WeatherData properData = new WeatherData(277.15f, 1012, 55, 10000, 3, LocalDateTime.parse("2018-03-25T19:00"),
-				LocalDateTime.parse("2018-03-25T06:18:13"), LocalDateTime.parse("2018-03-25T18:49:18"), "Clear", 0.0f,
+				LocalDateTime.parse("2018-03-25T06:18:13"), LocalDateTime.parse("2018-03-25T18:49:18"),LocalDateTime.now(), "Clear", 0.0f,
 				0.0f);
 
 		assertEquals(weatherData, properData);

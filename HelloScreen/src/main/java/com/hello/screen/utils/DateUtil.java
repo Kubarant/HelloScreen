@@ -1,4 +1,4 @@
-package com.hello.screen;
+package com.hello.screen.utils;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

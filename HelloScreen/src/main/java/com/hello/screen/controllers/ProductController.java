@@ -22,7 +22,7 @@ public class ProductController {
 	@GetMapping("/prod/{profile}")
 	public Mono<List<Product>> prod(@PathVariable String profile) throws Exception {
 		System.out.println(profile);
-		return repository.findByName("Kub").map(Profile::getProducts);
+		return repository.findByName(profile).map(Profile::getProducts);
 		
 	}
 	

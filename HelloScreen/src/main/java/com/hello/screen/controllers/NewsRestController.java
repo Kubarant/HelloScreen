@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hello.screen.model.News;
+import com.hello.screen.model.Profile;
 import com.hello.screen.repository.ProfileRepository;
+
+import reactor.core.publisher.Mono;
 
 @RestController
 public class NewsRestController {
@@ -17,9 +20,10 @@ public class NewsRestController {
 	ProfileRepository repos;
 	
 	@GetMapping("/news/{profile}")
-	public List<News> news(@PathVariable String profile){
+	public Mono<List<News>> news(@PathVariable String profile){
 		System.out.println("Newsy "+profile);
-		return repos.findAll().blockFirst().getNews();
+		
+		return repos.findByName(profile).map(Profile::getNews);
 	}
 
 }

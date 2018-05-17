@@ -1,5 +1,6 @@
 package com.hello.screen;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -43,12 +44,19 @@ public class ImageWriter {
 	public Optional<BufferedImage> instreamToImage(InputStream inputStream) {
 		try {
 			BufferedImage image = ImageIO.read(inputStream);
+			BufferedImage rgbImg = prepareImage(image);
 			inputStream.close();
-			return Optional.ofNullable(image);
+			return Optional.ofNullable(rgbImg);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return Optional.empty();
 		}
+	}
+
+	private BufferedImage prepareImage(BufferedImage image) {
+		BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+		result.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+		return result;
 	}
 
 	public static String urlValider(String name) {

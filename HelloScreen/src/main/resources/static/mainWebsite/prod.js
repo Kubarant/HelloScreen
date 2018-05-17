@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         mounted() {
             axios.get("/prod/" + profilename).then(response => {
                 console.log("http://127.0.0.1:8080/imgosy/" + response.data[0].imagePath + ".jpg");
-                response.data.map(el => el.url = "http://192.168.88.26:8080/imgosy/" + el.imagePath + ".jpg");
+                response.data.map(el => el.url = "http://127.0.0.1:8080/imgosy/" + el.imagePath + ".jpg");
                 response.data.map(el => {
                     let price = el.price.split(".");
                     el.pln = price[0];

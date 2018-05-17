@@ -129,9 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
         window.chna = chart;
-        for (var i = 0; i < chart.data.datasets.length; i++) {
-        	chart.data.datasets[i].borderColor =tempsColors[i];
-		}
+      
         
         
     });

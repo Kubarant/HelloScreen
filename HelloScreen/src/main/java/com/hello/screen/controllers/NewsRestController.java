@@ -21,7 +21,7 @@ public class NewsRestController {
 	
 	@GetMapping("/news/{profile}")
 	public Mono<List<News>> news(@PathVariable String profile){
-		System.out.println("Newsy "+profile);
+		//System.out.println("Newsy "+profile);
 		
 		return repos.findByName(profile).map(Profile::getNews);
 	}

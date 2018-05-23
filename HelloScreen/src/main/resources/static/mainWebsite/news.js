@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var news = new Vue({
         el: '#news',
         data: {
+        	animation:null,
             newses: []
         },
         mounted() {
@@ -16,11 +17,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 });
                 extractDomain(response.data[0].sourceLink);
                 this.newses = response.data;
-
+                
             });
+        },
+        
+        updated(){
+        	setTimeout(function(){ 
+        		if(this.animation)
+        			this.animation.cancel();
+        			this.animation = animateNewsSection();        		
+        	}, 4000);
         }
+        
     });
-
 
 
 });
@@ -42,4 +51,24 @@ function extractDomain(url) {
 function clearLocalNews(string) {
     let ind = string.search(", powiat lubaczowski, elubaczow.com - aktualne informacje z regionu każdego dnia!");
     return ind != -1 ? string.substring(0, ind) : string;
+}
+function animateNewsSection(){
+	let newsElement = document.getElementById("news");
+	let translation = (newsElement.scrollHeight - newsElement.offsetHeight)*-1; 
+	let cssTranslation = 'translateY('+translation+'px)';
+	newsElement.animate([
+		  { transform: 'translateY(0)' },
+		  { transform: cssTranslation }  
+    	], { 
+		  delay:2*1000,
+    	  duration: 65*1000,
+    	  iterations:Infinity,
+    	  direction:'alternate',
+    	  easing:'linear',
+    	  fill:'forwards',
+    	});	   
+}
+
+function calcTotalElementHeight(element){
+	return Array.from(element.childNodes).map(el=>el.offsetHeight).reduce((a,b)=>a+b);
 }

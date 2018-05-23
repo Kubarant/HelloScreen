@@ -34,7 +34,7 @@ public class WeatherRestController {
 	    query.limit(1);
 	    query.with(new Sort(Sort.Direction.DESC, "creation"));
 	    List<WeatherData> find = template.find(query, WeatherData.class);
-
+	    System.out.println("su n is shinig" + find);
 	    
 	    return Mono.just(find.get(0));
 	}

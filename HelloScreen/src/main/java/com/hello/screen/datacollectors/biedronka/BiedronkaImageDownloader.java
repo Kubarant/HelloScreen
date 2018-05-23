@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import com.hello.screen.ImageWriter;
 
@@ -19,7 +20,7 @@ public class BiedronkaImageDownloader {
 
 	public BiedronkaImageDownloader() {
 		imageWriter = new ImageWriter();
-		httpClient = new OkHttpClient.Builder().retryOnConnectionFailure(true).build();
+		httpClient = new OkHttpClient.Builder().retryOnConnectionFailure(true).connectTimeout(10, TimeUnit.SECONDS).build();
 
 	}
 
@@ -29,6 +30,7 @@ public class BiedronkaImageDownloader {
 	}
 
 	private Optional<BufferedImage> downloadImage(Request request) {
+		
 		try (Response response = httpClient.newCall(request).execute()) {
 			InputStream inputStream = response.body().byteStream();
 			return imageWriter.instreamToImage(inputStream);

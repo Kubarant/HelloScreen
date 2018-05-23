@@ -148,17 +148,9 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 5;
-    animation: marquee 41s linear 10s infinite alternate;
 }
 
-@keyframes marquee {
-    0% {
-        transform: translate(0, 0%);
-    }
-    100% {
-        transform: translate(0, calc(90px * -20));
-    }
-}
+
 
 .news::-webkit-scrollbar {
     width: 0px;
@@ -221,8 +213,8 @@ body {
     border-bottom: 3px solid var(--primary-color-light);
     background-color: var(--secondary-color);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 155px));
-    grid-gap:8px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 160px));
+    grid-gap:6px;
     justify-items: center;
     justify-content: space-around;
     overflow: scroll;
@@ -253,10 +245,12 @@ body {
 .prod h3 {
     font-size: 0.85em;
     font-family: 'Roboto', sans-serif;
-    margin-left: 3px;
+    margin-left: 2px;
     position: absolute;
     top: 0.2em;
     text-shadow: FFFFFF88 3px 3px 15px;
+    background-color: #FFFFFF20;
+    overflow: hidden;
 }
 
 .prod .price-container {

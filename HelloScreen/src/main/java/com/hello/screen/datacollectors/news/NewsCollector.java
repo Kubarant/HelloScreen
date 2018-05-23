@@ -28,8 +28,9 @@ public class NewsCollector implements DataCollector<News>{
 
 	@Scheduled(fixedDelay=60*1000*60, initialDelay=2000)
 	public List<News> collect() {
-		System.out.println("Starting collecting news");
+		System.out.println("Starting collecting news");		
 		Map<String, List<News>> categories = collectCategories();
+		System.out.println(categories);
 		repository.findAll().map(profile->{profile.setNews(profile.filterPrefferedNews(categories));return profile;}).subscribe(prof->repository.save(prof).subscribe());
 		System.out.println("Ending collecting news");
 

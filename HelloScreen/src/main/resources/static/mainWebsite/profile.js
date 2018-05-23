@@ -8,11 +8,14 @@ document.addEventListener("DOMContentLoaded", function() {
         data: {
             name: profilename
         }
-    })
+    });
+    console.log("AAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYYYYYY");
+    
+ 
 
 
 
-})
+});
 
 function extractProfilename() {
     let url = window.location.href;
@@ -23,3 +26,6 @@ function extractProfilename() {
         return "unknown"
 
 }
+
+
+

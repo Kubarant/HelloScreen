@@ -1,20 +1,17 @@
 package com.hello.screen.model;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.hello.screen.utils.ListUtil;
+import com.hello.screen.services.NewsChooserService;
 
 @Document
 public class Profile {
@@ -23,9 +20,28 @@ public class Profile {
 	private String name;
 	private List<String> keywords;
 	private List<Product> products;
-	private List<String> prefferedCategories;
+	private List<String> prefferedCategoriess;
 	private List<News> news;
-	public List<CategoryPreferences> prefferedCategoriess;
+	
+	public List<CategoryPreferences> prefferedCategories;
+
+
+	@Transient
+	 NewsChooserService chooserService;
+
+	
+	public Profile(String name, List<String> keywords, List<Product> products, List<News> news,
+			List<CategoryPreferences> prefferedCategories) {
+		super();
+		this.name = name;
+		this.keywords = keywords;
+		this.products = products;
+		this.news = news;
+		this.prefferedCategories = prefferedCategories;
+		products = new ArrayList<>();
+		prefferedCategories = new ArrayList<>();
+		chooserService = new NewsChooserService();
+	}
 
 	public Profile(String name, List<String> keywords) {
 		super();
@@ -33,12 +49,21 @@ public class Profile {
 		this.keywords = keywords;
 		products = new ArrayList<>();
 		prefferedCategories = new ArrayList<>();
+		chooserService = new NewsChooserService();
 	}
 
 	public Profile() {
 		super();
 		products = new ArrayList<>();
 		prefferedCategories = new ArrayList<>();
+		chooserService = new NewsChooserService();
+	}
+	public static Profile registrationDtoToProfile(ProfileRegistrationDTO registrationDTO) {
+		Profile profile = new Profile();
+		profile.setKeywords(registrationDTO.getKeywords());
+		profile.setName(registrationDTO.getName());
+		profile.setPrefferedCategories(registrationDTO.getPreferences());
+		return profile;
 	}
 
 	public ArrayList<Product> filterPrefferedProducts(List<Product> products) {
@@ -50,8 +75,8 @@ public class Profile {
 				result.add(product);
 		}
 		System.out.println(result.size());
-		if (result.size() < 20)
-			result.addAll(getRandomProducts(products, 20 - result.size()));
+		if (result.size() < 30)
+			result.addAll(getRandomProducts(products, 30 - result.size()));
 
 		return result;
 	}
@@ -71,7 +96,7 @@ public class Profile {
 		return result;
 	}
 
-	public List<News> filterPrefferedNews(Map<String, List<News>> news) {
+	public List<News> filterPrefferedNewsss(Map<String, List<News>> news) {
 		List<News> interesting = prefferedCategories.stream().map(pcat -> news.get(pcat)).filter(el -> el != null)
 				.map(list -> list.subList(0, Math.min(list.size(), 7))).reduce((l1, l2) -> {
 					l1.addAll(l2);
@@ -83,6 +108,10 @@ public class Profile {
 		return interesting;
 	}
 
+	public List<News> filterPrefferedNews(Map<String, List<News>> news) {
+		List<News> choosePrefferedNews = chooserService.choosePrefferedNews(news, prefferedCategories);
+		 return choosePrefferedNews;
+	}
 
 	public String getName() {
 		return name;
@@ -116,13 +145,6 @@ public class Profile {
 		this.id = id;
 	}
 
-	public List<String> getPrefferedCategories() {
-		return prefferedCategories;
-	}
-
-	public void setPrefferedCategories(List<String> prefferedCategories) {
-		this.prefferedCategories = prefferedCategories;
-	}
 
 	public List<News> getNews() {
 		return news;
@@ -132,4 +154,74 @@ public class Profile {
 		this.news = news;
 	}
 
+	public List<CategoryPreferences> getPrefferedCategories() {
+		return prefferedCategories;
+	}
+	
+	public void setPrefferedCategories(List<CategoryPreferences> prefferedCategories) {
+		this.prefferedCategories = prefferedCategories;
+	}
+
+	@Override
+	public String toString() {
+		return "Profile [id=" + id + ", name=" + name + ", keywords=" + keywords + ", products=" + products + ", news="
+				+ news + ", prefferedCategories=" + prefferedCategories + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((keywords == null) ? 0 : keywords.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((news == null) ? 0 : news.hashCode());
+		result = prime * result + ((prefferedCategories == null) ? 0 : prefferedCategories.hashCode());
+		result = prime * result + ((prefferedCategoriess == null) ? 0 : prefferedCategoriess.hashCode());
+		result = prime * result + ((products == null) ? 0 : products.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Profile other = (Profile) obj;
+		if (keywords == null) {
+			if (other.keywords != null)
+				return false;
+		} else if (!keywords.equals(other.keywords))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (news == null) {
+			if (other.news != null)
+				return false;
+		} else if (!news.equals(other.news))
+			return false;
+		if (prefferedCategories == null) {
+			if (other.prefferedCategories != null)
+				return false;
+		} else if (!prefferedCategories.equals(other.prefferedCategories))
+			return false;
+		if (prefferedCategoriess == null) {
+			if (other.prefferedCategoriess != null)
+				return false;
+		} else if (!prefferedCategoriess.equals(other.prefferedCategoriess))
+			return false;
+		if (products == null) {
+			if (other.products != null)
+				return false;
+		} else if (!products.equals(other.products))
+			return false;
+		return true;
+	}
+	
+	
 }

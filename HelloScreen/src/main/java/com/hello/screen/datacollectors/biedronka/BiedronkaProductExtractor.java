@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.hello.screen.ImageWriter;
 import com.hello.screen.model.Product;
+import com.hello.screen.utils.HtmlCharsRemover;
 import com.jaunt.Element;
 import com.jaunt.NotFound;
 
@@ -30,7 +31,8 @@ public class BiedronkaProductExtractor {
 
 	private String extractName(Element elements) {
 		String name = getOptionalElementValue("<h4 class=\"tile-name\"", elements);
-		return name.replaceAll("[?<>\"\'\\/:*|]", " ").replaceAll("&quot;", "");
+		String cleanName = HtmlCharsRemover.removeSpecials(name).replaceAll("[?<>\"\'\\/:*|]", " ");
+		return cleanName;
 	}
 
 	private String extractImageUrl(Element elements) throws NotFound {

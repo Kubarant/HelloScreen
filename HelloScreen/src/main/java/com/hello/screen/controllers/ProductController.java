@@ -3,6 +3,7 @@ package com.hello.screen.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,13 +17,15 @@ import reactor.core.publisher.Mono;
 @RestController
 public class ProductController {
 	
+	private static final String GUEST_PROFILE_NAME="guest";
+	
 	@Autowired
 	ProfileRepository repository;
 	
 	@GetMapping("/prod/{profile}")
 	public Mono<List<Product>> prod(@PathVariable String profile) throws Exception {
-		System.out.println(profile);
-		return repository.findByName(profile).map(Profile::getProducts);
+		//System.out.println(profile);
+		 return repository.findByName(profile).defaultIfEmpty(repository.findByName(GUEST_PROFILE_NAME).block()).map(Profile::getProducts);
 		
 	}
 	

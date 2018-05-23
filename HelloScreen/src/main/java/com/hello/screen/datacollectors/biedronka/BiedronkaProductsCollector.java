@@ -27,10 +27,6 @@ public class BiedronkaProductsCollector {
 	@Scheduled(initialDelay = 2000, fixedDelay = 1000 * 60 * 60)
 	public void collectProducts() {
 		List<Product> products = recieveProducts();
-		// Profile profile = new
-		// Profile("Kub",Arrays.asList("lays","czpis","chips","cola","pepsi","cukier","led","elektro","mróz","dan
-		// brown","błyskawiczna","gorący
-		// kubek","pizza","donatello","giuseppe","tyson","kurczak"));
 		Flux<Profile> all = repository.findAll();
 
 		all.map(profile -> {

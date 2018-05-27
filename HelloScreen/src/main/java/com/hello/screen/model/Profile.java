@@ -152,11 +152,8 @@ public class Profile {
 		} else if (!prefferedCategories.equals(other.prefferedCategories))
 			return false;
 		if (products == null) {
-			if (other.products != null)
-				return false;
-		} else if (!products.equals(other.products))
-			return false;
-		return true;
+            return other.products == null;
+        } else return products.equals(other.products);
 	}
 	
 	

@@ -1,30 +1,30 @@
 package com.hello.screen.datacollectors.biedronka;
 
+import com.hello.screen.ImageWriter;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import com.hello.screen.ImageWriter;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class BiedronkaImageDownloader {
 	private ImageWriter imageWriter;
 	private OkHttpClient httpClient;
-	public static final String heroku_proxy ="https://cors-anywhere.herokuapp.com/";
+    private static final String heroku_proxy = "https://cors-anywhere.herokuapp.com/";
 	public static final String crosme_proxy ="https://crossorigin.me/";
 
-	public BiedronkaImageDownloader() {
+    BiedronkaImageDownloader() {
 		imageWriter = new ImageWriter();
 		httpClient = new OkHttpClient.Builder().retryOnConnectionFailure(true).connectTimeout(10, TimeUnit.SECONDS).build();
 
 	}
 
-	public void downloadAndSaveImage(String name, String url) {
+
+    void downloadAndSaveImage(String name, String url) {
 		Request request = prepareImageRequest(url);
 		downloadImage(request).ifPresent(img->imageWriter.writeImage(img, name));		
 	}
@@ -44,8 +44,8 @@ public class BiedronkaImageDownloader {
 		return new Request.Builder().url(heroku_proxy + url).addHeader("Origin", "www.biedronka.pl")
 				.addHeader("Referer", "http://www.biedronka.pl/").build();
 	}
-	
-	public boolean imgAlreadyExists(String name) {
+
+    boolean imgAlreadyExists(String name) {
 		return imageWriter.imageAlreadyExists(name);
 	} 
 

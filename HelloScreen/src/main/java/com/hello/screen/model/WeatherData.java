@@ -1,9 +1,9 @@
 package com.hello.screen.model;
 
-import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDateTime;
 
 @Document
 public class WeatherData {
@@ -234,9 +234,7 @@ public class WeatherData {
 				return false;
 		} else if (!weather.equals(other.weather))
 			return false;
-		if (windSpeed != other.windSpeed)
-			return false;
-		return true;
+        return windSpeed == other.windSpeed;
 	}
 
 }

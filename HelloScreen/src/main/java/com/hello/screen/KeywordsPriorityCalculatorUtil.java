@@ -1,9 +1,9 @@
 package com.hello.screen;
 
+import com.hello.screen.model.Product;
+
 import java.util.Arrays;
 import java.util.List;
-
-import com.hello.screen.model.Product;
 
 public class KeywordsPriorityCalculatorUtil {
 	/**

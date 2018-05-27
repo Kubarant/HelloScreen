@@ -1,23 +1,22 @@
 package com.hello.screen.datacollectors.weather;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hello.screen.JsonUtil;
 import com.hello.screen.model.WeatherData;
 import com.hello.screen.utils.DateUtil;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class WeatherDataMapper {
-	
-	
-		public static WeatherData recieveWeatherDataFromNode(JsonNode node){
+
+
+    private static WeatherData recieveWeatherDataFromNode(JsonNode node) {
 			
 			String weather = node.path("weather").get(0).path("main").asText();
 			JsonNode tnode = node.path("main");
@@ -38,15 +37,14 @@ public class WeatherDataMapper {
 		
 		public static ArrayList<WeatherData> recieveWeatherDataFromNodes(ArrayList<JsonNode> nodes){
 			 ArrayList<WeatherData> list = new ArrayList<>();
-			for (int i = 0; i < nodes.size(); i++) {
-				list.add(recieveWeatherDataFromNode(nodes.get(i)));
+            for (JsonNode node : nodes) {
+                list.add(recieveWeatherDataFromNode(node));
 			}
 			return list;
 		}
 		
 		public Optional<WeatherData> jsonToWeatherData(String json){
-			Optional<WeatherData> node = stringToJsonNode(json).map(WeatherDataMapper::recieveWeatherDataFromNode);;
-			return node;
+            return stringToJsonNode(json).map(WeatherDataMapper::recieveWeatherDataFromNode);
 			
 		}
 		public Optional<JsonNode> stringToJsonNode(String json){
@@ -63,14 +61,14 @@ public class WeatherDataMapper {
 		
 		
 		public Optional<WeatherData> currentWeatherFromJson(String json) {
-			Optional<WeatherData> weatherData = jsonToWeatherData(json);
-			return weatherData;
+            return jsonToWeatherData(json);
 		}
 		
 		public Optional<ArrayList<WeatherData>> forecastWeatherFromJson(String json) {
 			Optional<JsonNode> node = stringToJsonNode(json);
-			Optional<ArrayList<WeatherData>> weatherData = node.map(n-> n.path("list")).map(JsonUtil::mapToArraylist).map(list->recieveWeatherDataFromNodes(list));
-			return weatherData;
+            return node.map(n -> n.path("list"))
+                    .map(JsonUtil::mapToArraylist)
+                    .map(WeatherDataMapper::recieveWeatherDataFromNodes);
 			
 		}
 		

@@ -1,8 +1,8 @@
 package com.hello.screen;
 
-import java.util.ArrayList;
-
 import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.ArrayList;
 
 public class JsonUtil {
 

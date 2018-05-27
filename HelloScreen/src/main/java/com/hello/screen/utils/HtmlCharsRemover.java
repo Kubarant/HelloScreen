@@ -1,7 +1,7 @@
 package com.hello.screen.utils;
 
 public class HtmlCharsRemover {
-	public static final String HTML_CHARS_REPLACE_REGEX="&quot;|&amp;|&lt;|&gt;|&deg;|&frasl;|&oacute;";
+    private static final String HTML_CHARS_REPLACE_REGEX = "&quot;|&amp;|&lt;|&gt;|&deg;|&frasl;|&oacute;";
 	
 	/**
 	 * remove SPECIFIED html special characters and entities from given string

@@ -1,26 +1,24 @@
 package com.hello.screen;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRepositories;
 
-import com.mongodb.reactivestreams.client.MongoClient;
-import com.mongodb.reactivestreams.client.MongoClients;
-
 @SpringBootApplication
 @EnableReactiveMongoRepositories
 public class HelloScreenApplication {
-	
-	
+
+
+    private static Logger logger = LoggerFactory.getLogger(HelloScreenApplication.class);
+
 	public static void main(String[] args) {
+
 		SpringApplication.run(HelloScreenApplication.class, args);
-	
-	}
-	
-	
-	  public MongoClient mongoClient() {
-	    return MongoClients.create();
-	  }
+
+
+    }
 	
 	
 }

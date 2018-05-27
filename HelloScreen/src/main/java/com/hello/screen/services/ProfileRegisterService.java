@@ -1,17 +1,17 @@
 package com.hello.screen.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.hello.screen.model.Profile;
 import com.hello.screen.model.ProfileRegistrationDTO;
 import com.hello.screen.repository.ProfileRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ProfileRegisterService {
 
 	@Autowired
-	ProfileRepository profileRepository;
+    private
+    ProfileRepository profileRepository;
 
 	public void register(ProfileRegistrationDTO registrationDTO) {
 		Profile profile = registrationDtoToProfile(registrationDTO);

@@ -1,15 +1,15 @@
 package com.hello.screen.datacollectors.biedronka;
 
-import java.util.Optional;
-
 import com.hello.screen.ImageWriter;
 import com.hello.screen.model.Product;
 import com.hello.screen.utils.HtmlCharsRemover;
 import com.jaunt.Element;
 import com.jaunt.NotFound;
 
+import java.util.Optional;
+
 public class BiedronkaProductExtractor {
-	BiedronkaImageDownloader downloader= new BiedronkaImageDownloader();
+    private BiedronkaImageDownloader downloader = new BiedronkaImageDownloader();
 
 	public Optional<Product> createProduct(Element elements) {
 		try {
@@ -31,8 +31,9 @@ public class BiedronkaProductExtractor {
 
 	private String extractName(Element elements) {
 		String name = getOptionalElementValue("<h4 class=\"tile-name\"", elements);
-		String cleanName = HtmlCharsRemover.removeSpecials(name).replaceAll("[?<>\"\'\\/:*|]", " ");
-		return cleanName;
+
+        return HtmlCharsRemover.removeSpecials(name)
+                .replaceAll("[?<>\"\'\\/:*|]", " ");
 	}
 
 	private String extractImageUrl(Element elements) throws NotFound {
@@ -42,7 +43,7 @@ public class BiedronkaProductExtractor {
 	private String extractPrice(Element elements) throws NotFound {
 		String pricePLN = elements.findFirst("<span class=\"pln\"").getText();
 		String priceCents = elements.findFirst("<span class=\"gr\"").getText();
-		return new StringBuilder(pricePLN).append('.').append(priceCents).toString();
+        return pricePLN + '.' + priceCents;
 	}
 
 	private String extractAddtitionalInfo(Element elements) {
@@ -53,7 +54,7 @@ public class BiedronkaProductExtractor {
 		return builder.append(promotip).append('&').append(amount).append('&').append(promoText).toString();
 	}
 
-	public String getOptionalElementValue(String query, Element elements) {
+    private String getOptionalElementValue(String query, Element elements) {
 		try {
 			return elements.findFirst(query).getText();
 		} catch (NotFound e) {

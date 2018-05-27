@@ -1,17 +1,16 @@
 package com.hello.screen.services;
 
+import com.hello.screen.model.CategoryPreferences;
+import com.hello.screen.model.News;
+import com.hello.screen.utils.ListUtil;
+import org.springframework.stereotype.Service;
+
 import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Service;
-
-import com.hello.screen.model.CategoryPreferences;
-import com.hello.screen.model.News;
-import com.hello.screen.utils.ListUtil;
 
 @Service
 public class NewsChooserService {
@@ -36,13 +35,14 @@ public class NewsChooserService {
 	private Map<String, Integer> convertToNewsAmountInCategoryMap(List<CategoryPreferences> preferences,
 			Map<String, Integer> categoryNewsSize) {
 		return preferences.stream().map(preference -> newsAmountMap(preference, categoryNewsSize))
-				.collect(Collectors.toMap(ent -> ent.getKey(), ent -> ent.getValue()));
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
 	private Map<String, Integer> convertToCategorySizeMap(Map<String, List<News>> news) {
 		return news.entrySet().stream()
-				.map(ent -> new AbstractMap.SimpleEntry<String, Integer>(ent.getKey(), ent.getValue().size()))
-				.collect(Collectors.toMap(ent -> ent.getKey(), ent -> ent.getValue()));
+                .map(ent -> new AbstractMap.SimpleEntry<>(ent.getKey(), ent.getValue()
+                        .size()))
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 	}
 
 	private List<News> chooseNewsUsingOnNewsInCategoryEntry(Entry<String, Integer> newsInCategory,
@@ -58,7 +58,7 @@ public class NewsChooserService {
 		double newsAmountDouble = (preference.getValue() / 100.0d) * (double) MAXIMUM_NEWS_AMOUNT;
 
 		int newsAmount = newsSize > newsAmountDouble ? (int) Math.floor(newsAmountDouble) : newsSize;
-		return new AbstractMap.SimpleEntry<String, Integer>(preference.getLabel(), newsAmount);
+        return new AbstractMap.SimpleEntry<>(preference.getLabel(), newsAmount);
 	}
 
 }

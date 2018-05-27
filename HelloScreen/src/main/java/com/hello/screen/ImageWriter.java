@@ -19,7 +19,7 @@ public class ImageWriter {
 		String valid = urlValider(name);
 		Logger.debug("Writing {}.jpg image named {}", name, valid);
 
-		try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + valid + ".jpg");) {
+        try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + valid + ".jpg")) {
 
 			ImageIO.write(image, "jpg", outputStream);
 		} catch (IOException e) {
@@ -30,7 +30,8 @@ public class ImageWriter {
 	public void clearFolder() {
 		System.out.println(new File(imagesPath).listFiles().length);
 		File[] files = new File(imagesPath).listFiles();
-		Arrays.stream(files).forEach(f -> f.delete());
+        Arrays.stream(files)
+                .forEach(File::delete);
 		System.out.println(new File(imagesPath).listFiles().length);
 	}
 

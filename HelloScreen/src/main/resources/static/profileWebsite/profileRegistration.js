@@ -16,6 +16,7 @@ submit.onclick = function() {
 		keywords:a
 	}
 	).then(response => {
+	    window.location.replace("/ho?profilename="+name);
 		console.log(response)
 	});
 	

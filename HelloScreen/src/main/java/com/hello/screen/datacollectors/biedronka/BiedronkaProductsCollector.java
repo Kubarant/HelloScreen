@@ -1,49 +1,55 @@
 package com.hello.screen.datacollectors.biedronka;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
-
 import com.hello.screen.model.Product;
 import com.hello.screen.model.Profile;
 import com.hello.screen.repository.ProfileRepository;
-
+import com.hello.screen.services.ProductChoosingService;
+import com.hello.screen.utils.ListUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 @Service
 public class BiedronkaProductsCollector {
 
-	BiedronkaProductsParser productsParser;
-	@Autowired
-	ProfileRepository repository;
+    @Autowired
+    private ProductChoosingService productChooser;
 
-	public BiedronkaProductsCollector() {
-		super();
-		productsParser = new BiedronkaProductsParser();
-	}
+    private BiedronkaProductsParser productsParser;
 
-	@Scheduled(initialDelay = 2000, fixedDelay = 1000 * 60 * 60)
-	public void collectProducts() {
-		List<Product> products = recieveProducts();
-		Flux<Profile> all = repository.findAll();
+    @Autowired
+    private ProfileRepository repository;
 
-		all.map(profile -> {
-			profile.setProducts(profile.filterPrefferedProducts(products));
-			return profile;
-		}).subscribe(prof->repository.save(prof).subscribe());
+    public BiedronkaProductsCollector() {
+        super();
+        productsParser = new BiedronkaProductsParser();
+    }
 
-	}
+    @Scheduled(initialDelay = 2000, fixedDelay = 1000 * 60 * 60)
+    public void collectProducts() {
+        List<Product> products = recieveProducts();
+        Flux<Profile> all = repository.findAll();
 
-	public List<Product> recieveProducts() {
-		List<String> urls = productsParser.offersUrls();
-		List<Product> products = urls.stream().map(url -> productsParser.recieveProductsPage(this, url))
-				.filter(list -> !list.isEmpty()).reduce((list, list2) -> {
-					list.addAll(list2);
-					return list;
-				}).get();
-		return products;
-	}
+        all.map(profile -> {
+            profile.setProducts(productChooser.filterPrefferedProducts(products, profile.getKeywords()));
+            return profile;
+        })
+                .subscribe(prof -> repository.save(prof)
+                        .subscribe());
+
+    }
+
+    private List<Product> recieveProducts() {
+        List<String> urls = productsParser.offersUrls();
+        return urls.stream()
+                .map(url -> productsParser.recieveProductsPage(this, url))
+                .filter(list -> !list.isEmpty())
+                .reduce((list, list2) -> ListUtil.combine(list, list))
+                .get();
+
+    }
 
 }

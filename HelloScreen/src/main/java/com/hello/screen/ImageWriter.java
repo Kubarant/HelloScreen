@@ -1,6 +1,9 @@
 package com.hello.screen;
 
-import java.awt.Color;
+import org.pmw.tinylog.Logger;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -9,14 +12,12 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Optional;
 
-import javax.imageio.ImageIO;
-
 public class ImageWriter {
 	private final String imagesPath = "C:\\Users\\Kuba\\eclipse\\java-oxygen\\workspace\\git\\HelloScreen\\src\\main\\resources\\public\\imgosy"; // this.getClass().getResource("/productimg").getPath();
 
 	public void writeImage(BufferedImage image, String name) {
 		String valid = urlValider(name);
-		System.out.println("   " + name);
+		Logger.debug("Writing {}.jpg image named {}", name, valid);
 
 		try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + valid + ".jpg");) {
 

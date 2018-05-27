@@ -1,26 +1,20 @@
 package com.hello.screen.datacollectors.biedronka;
 
+import com.hello.screen.ImageWriter;
+import com.hello.screen.model.Product;
+import com.jaunt.*;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.pmw.tinylog.Logger;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import javax.imageio.ImageIO;
-
-import com.hello.screen.ImageWriter;
-import com.hello.screen.model.Product;
-import com.jaunt.Document;
-import com.jaunt.Element;
-import com.jaunt.Elements;
-import com.jaunt.NotFound;
-import com.jaunt.ResponseException;
-import com.jaunt.UserAgent;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class BiedronkaProductsParser {
 	ImageWriter imageWriter = new ImageWriter();
@@ -45,7 +39,7 @@ public class BiedronkaProductsParser {
 			offers.addAll(specialOffers);
 			offers.addAll(funOffers);
 			List<String> urls = offers.stream().map(el -> el.getAtString("href")).collect(Collectors.toList());
-			System.out.println("Dużo was "+urls.size());
+            Logger.debug("Found {} sub pages with offers");
 			return urls;
 		} catch (Exception e) {
 			e.printStackTrace();

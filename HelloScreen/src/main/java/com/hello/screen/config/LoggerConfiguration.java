@@ -1,4 +1,4 @@
-package com.hello.screen;
+package com.hello.screen.config;
 
 import org.pmw.tinylog.Configurator;
 import org.pmw.tinylog.Level;

@@ -73,9 +73,9 @@ public class Profile {
 		return products;
 	}
 
-	public List<Product> setProducts(List<Product> products) {
+	public Profile setProducts(List<Product> products) {
 		this.products = products;
-		return this.products;
+		return this;
 	}
 
 	public String getId() {

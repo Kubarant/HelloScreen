@@ -3,6 +3,7 @@ package com.hello.screen.model;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class News {
 	@Id
@@ -89,10 +90,29 @@ public class News {
 	}
 
 	@Override
-	public String toString() {
-		return "News [id=" + id + ", title=" + title + ", category=" + category + ", date=" + date + ", description="
-				+ description + ", sourceLink=" + sourceLink + ", imgLink=" + imgLink + "]";
-	}
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        News news = (News) o;
+        return Objects.equals(title, news.title) &&
+                Objects.equals(category, news.category) &&
+                Objects.equals(date, news.date) &&
+                Objects.equals(description, news.description) &&
+                Objects.equals(sourceLink, news.sourceLink) &&
+                Objects.equals(imgLink, news.imgLink);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(title, category, date, description, sourceLink, imgLink);
+    }
+
+    @Override
+    public String toString() {
+        return "News [id=" + id + ", title=" + title + ", category=" + category + ", date=" + date + ", description="
+                + description + ", sourceLink=" + sourceLink + ", imgLink=" + imgLink + "]";
+    }
 	
 	
 }

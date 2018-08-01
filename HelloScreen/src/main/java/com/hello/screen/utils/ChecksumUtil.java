@@ -7,9 +7,7 @@ public class ChecksumUtil {
     public static int checksum(int[] set) {
         int res = 1;
         for (int i = 0; i < set.length; i++) {
-            res += set[i];
-            res = res << 3 | res >> (31 - 3);
-            res &= 0xFFFFFFF;
+            res ^= set[i];
         }
         return res;
     }

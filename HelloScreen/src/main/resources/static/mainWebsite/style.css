@@ -4,6 +4,7 @@ html {
 
 body {
     margin: 0;
+    background-color:var(--secondary-color);
 }
 
 :root {
@@ -96,8 +97,8 @@ body {
 .weather>.temp {
     display: grid;
     grid-template-columns: 20% 28% 1fr 51%;
-    grid-auto-rows: 12rem;
-    grid-template-areas: "temp temp . icon" "props props . icon";
+    grid-template-rows: 12rem 12rem 1fr;
+    grid-template-areas: "temp temp . icon" "props props . icon" "chart chart chart chart";
     align-items: stretch;
     margin: 20px 30px;
 }
@@ -129,15 +130,17 @@ body {
 }
 
 #weather-icon {
-    max-width: 100%;
-    height: auto;
+    max-height: 100%;
+    width: auto;
     grid-area: icon;
 }
 
 #mixed-chart {
-    max-width: 80%;
+    max-width: 100%;
     height: auto;
 	margin: 10px 20px;
+	grid-area: chart;
+
 }
 
 .news {
@@ -309,4 +312,41 @@ body {
     z-index: 50;
     width: 100%;
     background-color: var(--primary-color-dark);
+}
+
+@media screen and (max-width: 1330px) {
+  .container {
+      overflow-y:initial;
+      grid-template-columns: 100%;
+      grid-template-rows: 130px auto 40% 55% 40px;
+      grid-template-areas: "header" "weather" "news" "sales" "footer";
+      grid-row-gap:20px;
+
+  }
+   .news{
+        overflow-y:scroll;
+
+   }
+   #mixed-chart{
+        display:none !important;
+   }
+
+ html {
+     font-size: calc(100vw / 60);
+ }
+ .weather{
+    min-width:100%;
+    min-height:auto;
+ }
+ .weather>.temp {
+     grid-template-columns: 30% 30% 1fr 47%;
+     grid-template-areas: "temp temp . icon" "props props . icon" "chart chart chart chart";
+ }
+ #weather-icon {
+     height: 100%;
+     width: auto;
+     grid-area: icon;
+ }
+
+
 }

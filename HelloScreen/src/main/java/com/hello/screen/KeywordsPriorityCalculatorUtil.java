@@ -30,7 +30,8 @@ public class KeywordsPriorityCalculatorUtil {
 	}
 
 	private static boolean isStringContainsKeywords(List<String> keywords, String arg) {
-		return keywords.stream().filter(key -> key.contains(arg)).findFirst().isPresent();
+        return keywords.stream()
+                .anyMatch(key -> key.contains(arg));
 	}
 
 	public static boolean isStringsContainsKeywords(List<String> keywords, String... args) {

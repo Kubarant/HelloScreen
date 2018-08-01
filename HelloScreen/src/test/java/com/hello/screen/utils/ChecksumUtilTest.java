@@ -8,13 +8,13 @@ import static org.junit.Assert.assertNotEquals;
 public class ChecksumUtilTest {
 
     @Test
-    public void checksumNegativeChangedOrder() {
+    public void checksumPositiveChangedOrder() {
         int[] arr = new int[]{0, 10, 20, 30, 40, 50, 60, 70, 80};
         int[] arr2 = new int[]{10, 20, 30, 40, 50, 60, 70, 80, 0};
         int checksum = ChecksumUtil.checksum(arr);
         int checksum2 = ChecksumUtil.checksum(arr2);
 
-        assertNotEquals(checksum, checksum2);
+        assertEquals(checksum, checksum2);
 
     }
 

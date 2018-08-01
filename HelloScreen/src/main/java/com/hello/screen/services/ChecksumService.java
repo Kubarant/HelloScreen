@@ -4,6 +4,7 @@ import com.hello.screen.utils.ChecksumUtil;
 import org.pmw.tinylog.Logger;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -20,13 +21,13 @@ public class ChecksumService {
         return newChecksum == storedChecksum;
     }
 
-    public <T> void replaceObjectsIfNotAlreadyStored(List<T> products, ReactiveCrudRepository<T, String> objRepository) {
-        objRepository.findAll()
+    public <T> Mono<List<T>> replaceObjectsIfNotAlreadyStored(List<T> products, ReactiveCrudRepository<T, String> objRepository) {
+        return objRepository.findAll()
                 .collectList()
                 .filter(productsList -> !areAlreadyInDb(productsList, products))
-                .doOnNext(products1 -> objRepository.deleteAll())
-                .doOnNext(products1 -> objRepository.saveAll(products)
+                .doOnNext(products1 -> objRepository.deleteAll()
                         .subscribe())
-                .subscribe();
+                .doOnNext(products1 -> objRepository.saveAll(products)
+                        .subscribe());
     }
 }

@@ -22,10 +22,14 @@ document.addEventListener("DOMContentLoaded", function() {
         },
         
         updated(){
-        	setTimeout(function(){ 
-        		if(this.animation)
+        	setTimeout(function(){
+        		if(this.animation){
         			this.animation.cancel();
-        			this.animation = animateNewsSection();        		
+        			}
+        			if(window.matchMedia("(min-width: 1331px)").matches){
+
+        			this.animation = animateNewsSection();
+        			}
         	}, 4000);
         }
         
@@ -56,7 +60,7 @@ function animateNewsSection(){
 	let newsElement = document.getElementById("news");
 	let translation = (newsElement.scrollHeight - newsElement.offsetHeight)*-1; 
 	let cssTranslation = 'translateY('+translation+'px)';
-	newsElement.animate([
+	return newsElement.animate([
 		  { transform: 'translateY(0)' },
 		  { transform: cssTranslation }  
     	], { 

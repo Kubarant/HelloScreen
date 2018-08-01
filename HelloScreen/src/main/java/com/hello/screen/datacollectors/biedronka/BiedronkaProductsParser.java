@@ -23,7 +23,7 @@ public class BiedronkaProductsParser {
     public String getOptionalElementValue(String query, Element elements) {
         try {
             return elements.findFirst(query)
-                    .getText();
+                    .getChildText();
         } catch (NotFound e) {
             return "";
 
@@ -42,7 +42,7 @@ public class BiedronkaProductsParser {
             List<String> urls = offers.stream()
                     .map(el -> el.getAtString("href"))
                     .collect(Collectors.toList());
-            Logger.debug("Found {} sub pages with offers");
+            Logger.debug("Found {} sub pages with offers", urls.size());
             return urls;
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class BiedronkaProductsParser {
             elements.toList();
         } catch (Exception e) {
         }
-
+        //Logger.debug("Produktów tutu  {}  z {}",elements.size(),url);
         return elements.toList()
                 .stream()
                 .map(extractor::createProduct)

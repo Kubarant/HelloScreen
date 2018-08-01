@@ -1,16 +1,11 @@
 package com.hello.screen;
 
-import java.io.File;
-import java.net.URL;
-import java.util.Arrays;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.jaunt.UserAgent;
+import java.io.File;
+import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 public class ProductsCollectorTest {

@@ -47,12 +47,14 @@
                     <span>Zachód sł: {{wth.sunset}}</span>
                     <span>Wschód sł: {{wth.sunrise}}</span>
                 </div>
+                <canvas id="mixed-chart"></canvas>
+
             </div>
 
-            <canvas id="mixed-chart"></canvas>
 
         </div>
-        <div class="news" id="news">
+        <div class="news" id="news" v-on:mouseenter="if(this.animation)this.animation.pause()"
+             v-on:mouseleave="if(this.animation)this.animation.play()">
 
             <div class="card" v-for="news in newses">
                 <img v-bind:src="news.imgLink">

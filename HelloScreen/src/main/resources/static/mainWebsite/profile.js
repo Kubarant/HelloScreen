@@ -9,8 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             name: profilename
         }
     });
-    console.log("AAAAAAAAAAAAAAYYYYYYYYYYYYYYYYYYYYYYY");
-    
+
  
 
 

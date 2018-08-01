@@ -1,6 +1,7 @@
 package com.hello.screen.services;
 
 import com.hello.screen.model.Product;
+import com.hello.screen.utils.ListUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,17 @@ public class ProductChoosingService {
     /**
      * @return products containing any keyword and if it's less than specified in app.properties products it filled to default amount with random products
      */
-    public ArrayList<Product> filterPrefferedProducts(List<Product> products, List<String> keywords) {
+    public List<Product> filterPrefferedProducts(List<Product> products, List<String> keywords) {
         ArrayList<Product> result = extractProductsContainingKeywords(products, keywords);
-        System.out.println(result.size());
+//        Logger.info("prodsize {}  {} {}",products.size(),result.size(),keywords);
 
         fillWithRandomProductsToFixedSize(products, result, defaultProductsAmount);
 
-        return result;
+        return ListUtil.sublist(result, 0, defaultProductsAmount);
     }
 
-    public ArrayList<Product> filterPrefferedProducts(List<Product> products, List<String> keywords, int productsAmount) {
-        ArrayList<Product> result = filterPrefferedProducts(products, keywords);
+    public List<Product> filterPrefferedProducts(List<Product> products, List<String> keywords, int productsAmount) {
+        List<Product> result = filterPrefferedProducts(products, keywords);
         fillWithRandomProductsToFixedSize(products, result, productsAmount);
         return result;
     }
@@ -44,7 +45,7 @@ public class ProductChoosingService {
         return result;
     }
 
-    private void fillWithRandomProductsToFixedSize(List<Product> products, ArrayList<Product> filled, int size) {
+    private void fillWithRandomProductsToFixedSize(List<Product> products, List<Product> filled, int size) {
         if (filled.size() < size)
             filled.addAll(getRandomProducts(products, defaultProductsAmount - filled.size()));
     }
@@ -62,9 +63,9 @@ public class ProductChoosingService {
         ArrayList<Product> result = new ArrayList<>();
         Random random = new Random();
 
-        for (int i = 0; set.size() < amount && i < products.size(); i++) {
+        for (int i = 0; set.size() < amount || i < products.size(); i++) {
             int rand = random.nextInt(products.size() - 1);
-            result.add(products.get(rand));
+            set.add(products.get(rand));
         }
 
         result.addAll(set);

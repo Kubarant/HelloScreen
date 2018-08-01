@@ -41,8 +41,10 @@ public class BiedronkaProductExtractor {
 	}
 
 	private String extractPrice(Element elements) throws NotFound {
-		String pricePLN = elements.findFirst("<span class=\"pln\"").getText();
-		String priceCents = elements.findFirst("<span class=\"gr\"").getText();
+		String pricePLN = elements.findFirst("<span class=\"pln\"")
+				.getChildText();
+		String priceCents = elements.findFirst("<span class=\"gr\"")
+				.getChildText();
         return pricePLN + '.' + priceCents;
 	}
 
@@ -56,7 +58,8 @@ public class BiedronkaProductExtractor {
 
     private String getOptionalElementValue(String query, Element elements) {
 		try {
-			return elements.findFirst(query).getText();
+			return elements.findFirst(query)
+					.getChildText();
 		} catch (NotFound e) {
 			return "";
 

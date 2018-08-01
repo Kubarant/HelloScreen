@@ -2,8 +2,11 @@ package com.hello.screen.datacollectors.news;
 
 import com.hello.screen.datacollectors.DataCollector;
 import com.hello.screen.model.News;
+import com.hello.screen.repository.NewsRepository;
 import com.hello.screen.repository.ProfileRepository;
+import com.hello.screen.services.ChecksumService;
 import com.hello.screen.services.NewsChooserService;
+import com.hello.screen.utils.ListUtil;
 import com.jaunt.Document;
 import com.jaunt.Element;
 import com.jaunt.ResponseException;
@@ -27,12 +30,20 @@ public class NewsCollector implements DataCollector<News> {
     @Autowired
     private
     NewsChooserService chooserService;
+    @Autowired
+    ChecksumService checksumService;
+    @Autowired
+    NewsRepository newsRepository;
 
     @Scheduled(fixedDelay = 60 * 1000 * 60, initialDelay = 2000)
     public List<News> collect() {
         Logger.info("Starting collecting news");
         Map<String, List<News>> categories = collectCategories();
-        System.out.println(categories);
+        categories.values()
+                .stream()
+                .reduce(ListUtil::combine)
+                .ifPresent(news -> checksumService.replaceObjectsIfNotAlreadyStored(news, newsRepository));
+        Logger.debug(categories);
         repository.findAll()
                 .doOnNext(profile -> profile.setNews(chooserService.choosePrefferedNews(categories, profile.getPrefferedCategories())))
                 .subscribe(prof -> repository.save(prof)
@@ -63,10 +74,10 @@ public class NewsCollector implements DataCollector<News> {
     private Optional<News> extractNews(Element el, String category) {
         try {
             String title = el.findFirst("<title>")
-                    .getText();
+                    .getChildText();
             String date = el.findFirst("<pubDate>")
-                    .getText();
-            String link = el.getText();
+                    .getChildText();
+            String link = el.getChildText();
             LocalDateTime pubDate = LocalDateTime.parse(date, DateTimeFormatter.RFC_1123_DATE_TIME);
 
             Document description = badEncodedHtmlfixer(el.findFirst("<description>")

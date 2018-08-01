@@ -66,7 +66,6 @@ function tempColor(value) {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("aasdadsfds");
 
     axios.get("/forecast").then(response => {
         window.liss = response.data;
@@ -75,10 +74,8 @@ document.addEventListener("DOMContentLoaded", function() {
         let labels = lista.map(el => dateformat(el.date));
         let temps = lista.map(el => Math.floor(el.temp - 273.15));
         let tempsColors= temps.map(el=>tempColor(el));
-        console.log(tempsColors)
         let rain = lista.map(el => el.rain);
 
-        console.log(rain);
         Chart.defaults.global.defaultColor = "#ADADAD88";
         Chart.defaults.global.defaultFontColor = 'ADADAD88';//"#DD2222DD"
         let chart = new Chart(document.getElementById("mixed-chart"), {
@@ -105,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }]
             },
             options: {
+
                 legend: {
                     labels: {
                         fontColor: 'white'
@@ -113,8 +111,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 scales: {
                     xAxes: [{
                         gridLines: {
-                            color: 'rgba(231,231,255,0.6)',
-
+                            color: 'rgba(231,231,255,0.6)'
+                        },
+                        ticks:{
+                         fontSize: 16
                         }
                     }],
                     yAxes: [{
@@ -122,9 +122,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         gridLines: {
                             color: 'rgba(231,231,255,0.6)',
+                        },
+                        ticks:{
+                        fontSize:16
                         }
+
                     }]
                 },
+                maintainAspectRatio: true,
                 responsive: true
 
             }

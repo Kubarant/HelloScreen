@@ -1,0 +1,352 @@
+html {
+    font-size: calc(100vw / 120);
+}
+
+body {
+    margin: 0;
+    background-color:var(--secondary-color);
+}
+
+:root {
+    --primary-color: #00838f;
+    --primary-color-dark: #005662;
+    --primary-color-light: #00838f;
+    --secondary-color: #007770;
+    --secondary-color-dark: #005b4f;
+    --secondary-color-light: #4ebaaa;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 43.5% 28% 28.5%;
+    grid-template-rows: 130px 85% 1fr;
+    grid-template-areas: "header header header" "weather news sales" "footer footer footer";
+}
+
+.header {
+    grid-area: header;
+    border-top: 15px solid var(--primary-color-dark);
+    background-color: var(--primary-color);
+    z-index: 50;
+}
+
+.header>h1 {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight: 300;
+    text-align: center;
+    font-size: calc( 1em + 30px);
+}
+
+.banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--primary-color);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: example 2s ease-in 6s forwards;
+    display: none;
+}
+
+@keyframes example {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.banner>h1 {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight: 100;
+    font-size: calc(15rem + 10px);
+    letter-spacing: 3.5px;
+    margin: 0;
+    margin-bottom: 10rem;
+    animation: textapppear 5s ease-in 0s;
+}
+
+@keyframes textapppear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.weather {
+    grid-area: weather;
+    border-right: 3px solid var( --primary-color-light);
+    border-bottom: 3px solid var(--primary-color-light);
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.weather>.temp {
+    display: grid;
+    grid-template-columns: 20% 28% 1fr 51%;
+    grid-template-rows: 12rem 12rem 1fr;
+    grid-template-areas: "temp temp . icon" "props props . icon" "chart chart chart chart";
+    align-items: stretch;
+    margin: 20px 30px;
+}
+
+.weather>.temp>h1 {
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    font-weight: 100;
+    font-size: calc(7.7rem + 10px);
+    letter-spacing: 3px;
+    margin: 10px 0 1px 5px;
+    grid-area: temp;
+}
+
+.properties {
+    grid-area: props;
+    text-align: left;
+    text-indent: 22px;
+    line-height: 1.3;
+}
+
+.properties>span {
+    display: block;
+    color: white;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 3px;
+    font-size: calc(1.4rem + 6px);
+}
+
+#weather-icon {
+    max-height: 100%;
+    width: auto;
+    grid-area: icon;
+}
+
+#mixed-chart {
+    max-width: 100%;
+    height: auto;
+	margin: 10px 20px;
+	grid-area: chart;
+
+}
+
+.news {
+    grid-area: news;
+    border-right: 3px solid var(--primary-color-light);
+    border-bottom: 3px solid var(--primary-color-light);
+    background-color: var(--primary-color-light);
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+}
+
+
+
+.news::-webkit-scrollbar {
+    width: 0px;
+}
+
+.news .card {
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 0 5px 0 0;
+    border: 2px solid var(--primary-color-light);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: minmax(100px, 170px) minmax(150px, 1fr);
+    grid-template-areas: "image header" "image ." "image info" "image .";
+    justify-content: space-between;
+    align-items: center;
+    max-height: 120px;
+}
+
+.news .card img {
+    grid-area: image;
+    width: auto;
+    height: auto;
+    border: 2px solid var(--primary-color-dark);
+    border-radius: 9px;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.news .card h3 {
+    grid-area: header;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    margin: 15px 0 0px 0;
+    margin-left: 5px;
+}
+
+.news .card div {
+    grid-area: info;
+}
+
+.news .card div span {
+    float: right;
+    margin-right: 10px;
+    font-family: 'Roboto', sans-serif;
+    color: rgba(40, 40, 40, 0.75);
+}
+
+.news .card div a {
+    text-decoration: none;
+    text-transform: none;
+    margin-left: 8px;
+    color: rgba(100, 100, 100, 0.5);
+    font-family: 'Roboto', sans-serif;
+}
+
+.sales {
+    grid-area: sales;
+    max-width: 100%;
+    border-bottom: 3px solid var(--primary-color-light);
+    background-color: var(--secondary-color);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 160px));
+    grid-gap:6px;
+    justify-items: center;
+    justify-content: space-around;
+    overflow: scroll;
+}
+
+.sales::-webkit-scrollbar {
+    width: 0px;
+}
+
+.card {
+    margin: 0;
+}
+
+.card .prod {
+    position: relative;
+    width: 100%;
+    border: 2px hidden black;
+    border-radius: 40px;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.prod img {
+    width: 100%;
+    height: 100%;
+}
+
+.prod h3 {
+    font-size: 0.85em;
+    font-family: 'Roboto', sans-serif;
+    margin-left: 2px;
+    position: absolute;
+    top: 0.2em;
+    text-shadow: FFFFFF88 3px 3px 15px;
+    background-color: #FFFFFF20;
+    overflow: hidden;
+}
+
+.prod .price-container {
+    position: absolute;
+    right: 0%;
+    background-color: #ff7040AB;
+    top: 55%;
+    border: 2px solid red;
+    border-radius: 50%;
+    padding: 13px 8px;
+}
+
+.price-container .price {
+    color: #FFEFEF;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.card img {
+    max-width: 100%;
+    max-height: auto;
+    object-fit: contain;
+}
+.prod .tooltip{
+	position: absolute;
+	left:20px;
+	top:66%;
+	width: 20px;
+	height:20px;
+	border: 2px #222222CC solid;
+	border-radius:50%;
+	overflow: visible;
+	text-align: center;
+	color: white;
+	background-color: #444444CC;
+	font-weight: 600;
+}
+.tooltip-content{
+	z-index:20;
+	position:fixed;
+	display:none;
+	margin-top: 15px;
+	padding:4px 12px;
+	background-color: #444444CC;
+	color: white;
+}
+.tooltip:hover .tooltip-content{
+	display:block;
+}
+
+
+.footer {
+    grid-area: footer;
+    z-index: 50;
+    width: 100%;
+    background-color: var(--primary-color-dark);
+}
+
+@media screen and (max-width: 1330px) {
+  .container {
+      overflow-y:initial;
+      grid-template-columns: 100%;
+      grid-template-rows: 130px auto 40% 55% 40px;
+      grid-template-areas: "header" "weather" "news" "sales" "footer";
+      grid-row-gap:20px;
+
+  }
+   .news{
+        overflow-y:scroll;
+
+   }
+   #mixed-chart{
+        display:none !important;
+   }
+
+ html {
+     font-size: calc(100vw / 60);
+ }
+ .weather{
+    min-width:100%;
+    min-height:auto;
+ }
+ .weather>.temp {
+     grid-template-columns: 30% 30% 1fr 47%;
+     grid-template-areas: "temp temp . icon" "props props . icon" "chart chart chart chart";
+ }
+ #weather-icon {
+     height: 100%;
+     width: auto;
+     grid-area: icon;
+ }
+
+
+}

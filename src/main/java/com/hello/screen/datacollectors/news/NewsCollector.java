@@ -70,6 +70,7 @@ public class NewsCollector implements DataCollector<News> {
                 .collect(Collectors.toList());
     }
 
+
     private Optional<News> extractNews(Element el, String category) {
         try {
             String title = el.findFirst("<title>")

@@ -12,4 +12,12 @@ public class HtmlCharsRemover {
     public static String removeSpecials(String dirtyText) {
         return dirtyText.replaceAll(HTML_CHARS_REPLACE_REGEX, " ");
     }
+
+    public static String replaceEntities(String dirtyText) {
+        return dirtyText.replace("&lt;", "<")
+                .replace("&amp;", "&")
+                .replace("&quot;", "\"")
+                .replace("&gt;", ">")
+                .replace("&apos;", "'");
+    }
 }

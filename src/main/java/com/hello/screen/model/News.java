@@ -87,6 +87,11 @@ public class News {
         this.imgLink = imgLink;
     }
 
+    public News category(String category) {
+        this.category = category;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

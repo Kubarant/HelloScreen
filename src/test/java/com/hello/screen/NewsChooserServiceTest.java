@@ -64,7 +64,7 @@ public class NewsChooserServiceTest {
                 new CategoryPreferences("Lokalne", 40), new CategoryPreferences("Ekonomia", 30), new CategoryPreferences("Tech", 20));
 
         Map<String, List<News>> newsMap = createNewsMap();
-        List<News> news = chooserService.choosePrefferedNews(newsMap, prof.prefferedCategories);
+        List<News> news = chooserService.choosePreferredNews(newsMap, prof.prefferedCategories);
 
         Map<Object, Long> news2 = news.stream()
                 .map(News::getCategory)

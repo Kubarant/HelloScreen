@@ -17,7 +17,7 @@ public class NewsChooserService {
 
     private static final int MAXIMUM_NEWS_AMOUNT = 50;
 
-    public List<News> choosePrefferedNews(Map<String, List<News>> news,
+    public List<News> choosePreferredNews(Map<String, List<News>> news,
                                           List<CategoryPreferences> prefferedCategoriess) {
 
         Map<String, Integer> categoryNewsSize = convertToCategorySizeMap(news);

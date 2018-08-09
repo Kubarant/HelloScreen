@@ -9,14 +9,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Entities;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Service
 public class NewsParser {
 
-    public List<News> extractNewsFromUrl(String url, String category) {
+    public List<News> parseNews(String url, String category) {
         return Try.of(() -> parseNews(downloadXmlDocument(url), category))
                 .getOrElse(List::empty);
     }

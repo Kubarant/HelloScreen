@@ -15,8 +15,8 @@ import static java.util.stream.Collectors.groupingBy;
 @Service
 public class PreferredNewsSaver {
 
-    private ProfileRepository repository;
-    private NewsChooserService chooserService;
+    private final ProfileRepository repository;
+    private final NewsChooserService chooserService;
 
     @Autowired
     public PreferredNewsSaver(ProfileRepository repository, NewsChooserService chooserService) {
@@ -28,7 +28,7 @@ public class PreferredNewsSaver {
     public void matchNewsForEachProfile(List<News> news) {
         repository.findAll()
                 .doOnNext(profile -> profile.setNews(fitNewsToProfile(news, profile)))
-                .flatMap(prof -> repository.save(prof))
+                .flatMap(repository::save)
                 .subscribe();
     }
 

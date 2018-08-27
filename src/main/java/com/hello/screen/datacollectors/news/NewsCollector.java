@@ -3,55 +3,44 @@ package com.hello.screen.datacollectors.news;
 import com.hello.screen.datacollectors.DataCollector;
 import com.hello.screen.model.News;
 import com.hello.screen.repository.NewsRepository;
-import com.hello.screen.repository.ProfileRepository;
 import com.hello.screen.services.ChecksumService;
-import com.hello.screen.services.NewsChooserService;
 import io.vavr.collection.List;
 import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import static java.util.stream.Collectors.groupingBy;
-
 @Service
 public class NewsCollector implements DataCollector<News> {
-    @Autowired
-    ChecksumService checksumService;
-    @Autowired
-    NewsRepository newsRepository;
-    @Autowired
-    NewsProperties newsUrls;
-    @Autowired
-    private
-    ProfileRepository repository;
-    @Autowired
-    private
-    NewsChooserService chooserService;
-    @Autowired
+    private ChecksumService checksumService;
+    private NewsRepository newsRepository;
+    private NewsProperties newsUrls;
+    private PreferredNewsSaver saver;
     private NewsParser newsParser;
+
+    @Autowired
+    public NewsCollector(ChecksumService checksumService, NewsRepository newsRepository, NewsProperties newsUrls, PreferredNewsSaver saver, NewsParser newsParser) {
+        this.checksumService = checksumService;
+        this.newsRepository = newsRepository;
+        this.newsUrls = newsUrls;
+        this.saver = saver;
+        this.newsParser = newsParser;
+    }
 
     @Scheduled(fixedDelay = 60 * 1000 * 60, initialDelay = 2000)
     public java.util.List<News> collect() {
-        Logger.info("Collecting from {newsUrls}", newsUrls);
-        Logger.info("Starting collecting news");
+        Logger.info("Start collecting news from {newsUrls}", newsUrls);
+
         List<News> news = collectCategories()
                 .reduce((a, b) -> a.appendAll(b));
         Logger.debug("Collected news     {news}", news);
 
         checksumService.replaceObjectsIfNotAlreadyStored(news.asJava(), newsRepository)
                 .subscribe();
-        savePreferredNewsForEachUsers(news);
+        saver.matchNewsForEachProfile(news);
         Logger.info("Ending collecting news");
 
         return null;
-    }
-
-    private void savePreferredNewsForEachUsers(List<News> news) {
-        repository.findAll()
-                .doOnNext(profile -> profile.setNews(chooserService.choosePreferredNews(news.collect(groupingBy(News::getCategory)), profile.getPrefferedCategories())))
-                .flatMap(prof -> repository.save(prof))
-                .subscribe();
     }
 
 

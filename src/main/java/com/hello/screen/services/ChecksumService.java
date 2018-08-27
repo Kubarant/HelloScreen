@@ -19,7 +19,6 @@ public class ChecksumService {
 
         int storedChecksum = ChecksumUtil.checksumOfHashCodes(alreadyStoredobj);
         Logger.debug("Is it already in DB?  {}", newChecksum == storedChecksum);
-        System.out.println("jes czy nie " + (newChecksum == storedChecksum));
         return newChecksum == storedChecksum;
     }
 

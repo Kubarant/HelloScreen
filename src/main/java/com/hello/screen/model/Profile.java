@@ -8,7 +8,7 @@ import java.util.List;
 
 @Document
 public class Profile {
-    public List<CategoryPreferences> prefferedCategories;
+    public List<CategoryPreferences> preferredCategories;
     @Id
     private String id;
     private String name;
@@ -18,15 +18,15 @@ public class Profile {
 
 
     public Profile(String name, List<String> keywords, List<Product> products, List<News> news,
-                   List<CategoryPreferences> prefferedCategories) {
+                   List<CategoryPreferences> preferredCategories) {
         super();
         this.name = name;
         this.keywords = keywords;
         this.products = products;
         this.news = news;
-        this.prefferedCategories = prefferedCategories;
+        this.preferredCategories = preferredCategories;
         this.products = new ArrayList<>();
-        this.prefferedCategories = new ArrayList<>();
+        this.preferredCategories = new ArrayList<>();
     }
 
     public Profile(String name, List<String> keywords) {
@@ -34,20 +34,20 @@ public class Profile {
         this.name = name;
         this.keywords = keywords;
         products = new ArrayList<>();
-        prefferedCategories = new ArrayList<>();
+        preferredCategories = new ArrayList<>();
     }
 
     public Profile() {
         super();
         products = new ArrayList<>();
-        prefferedCategories = new ArrayList<>();
+        preferredCategories = new ArrayList<>();
     }
 
     public static Profile registrationDtoToProfile(ProfileRegistrationDTO registrationDTO) {
         Profile profile = new Profile();
         profile.setKeywords(registrationDTO.getKeywords());
         profile.setName(registrationDTO.getName());
-        profile.setPrefferedCategories(registrationDTO.getPreferences());
+        profile.setPreferredCategories(registrationDTO.getPreferences());
         return profile;
     }
 
@@ -94,18 +94,18 @@ public class Profile {
         return this.news;
     }
 
-    public List<CategoryPreferences> getPrefferedCategories() {
-        return prefferedCategories;
+    public List<CategoryPreferences> getPreferredCategories() {
+        return preferredCategories;
     }
 
-    public void setPrefferedCategories(List<CategoryPreferences> prefferedCategories) {
-        this.prefferedCategories = prefferedCategories;
+    public void setPreferredCategories(List<CategoryPreferences> preferredCategories) {
+        this.preferredCategories = preferredCategories;
     }
 
     @Override
     public String toString() {
         return "Profile [id=" + id + ", name=" + name + ", keywords=" + keywords + ", products=" + products + ", news="
-                + news + ", prefferedCategories=" + prefferedCategories + "]";
+                + news + ", preferredCategories=" + preferredCategories + "]";
     }
 
     @Override
@@ -115,7 +115,7 @@ public class Profile {
         result = prime * result + ((keywords == null) ? 0 : keywords.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((news == null) ? 0 : news.hashCode());
-        result = prime * result + ((prefferedCategories == null) ? 0 : prefferedCategories.hashCode());
+        result = prime * result + ((preferredCategories == null) ? 0 : preferredCategories.hashCode());
         result = prime * result + ((products == null) ? 0 : products.hashCode());
         return result;
     }
@@ -144,10 +144,10 @@ public class Profile {
                 return false;
         } else if (!news.equals(other.news))
             return false;
-        if (prefferedCategories == null) {
-            if (other.prefferedCategories != null)
+        if (preferredCategories == null) {
+            if (other.preferredCategories != null)
                 return false;
-        } else if (!prefferedCategories.equals(other.prefferedCategories))
+        } else if (!preferredCategories.equals(other.preferredCategories))
             return false;
         if (products == null) {
             return other.products == null;

@@ -60,11 +60,11 @@ public class NewsChooserServiceTest {
     public void testIfChoosingCorrectly() {
         Profile prof = new Profile();
 
-        prof.prefferedCategories = Arrays.asList(new CategoryPreferences("Sport", 0), new CategoryPreferences("Polska", 10),
+        prof.preferredCategories = Arrays.asList(new CategoryPreferences("Sport", 0), new CategoryPreferences("Polska", 10),
                 new CategoryPreferences("Lokalne", 40), new CategoryPreferences("Ekonomia", 30), new CategoryPreferences("Tech", 20));
 
         Map<String, List<News>> newsMap = createNewsMap();
-        List<News> news = chooserService.choosePreferredNews(newsMap, prof.prefferedCategories);
+        List<News> news = chooserService.choosePreferredNews(newsMap, prof.preferredCategories);
 
         Map<Object, Long> news2 = news.stream()
                 .map(News::getCategory)

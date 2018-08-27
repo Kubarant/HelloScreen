@@ -23,7 +23,7 @@ public class ProfileRegisterService {
         Profile profile = new Profile();
         profile.setKeywords(registrationDTO.getKeywords());
         profile.setName(registrationDTO.getName());
-        profile.setPrefferedCategories(registrationDTO.getPreferences());
+        profile.setPreferredCategories(registrationDTO.getPreferences());
         return profile;
     }
 

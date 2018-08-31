@@ -4,6 +4,7 @@ import com.hello.screen.ImageWriter;
 import com.hello.screen.model.Product;
 import com.hello.screen.utils.DocumentDownloadUtil;
 import io.vavr.collection.List;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -11,9 +12,12 @@ public class BiedronkaProductParser {
     private BiedronkaImageDownloader downloader = new BiedronkaImageDownloader();
 
     public List<Product> receiveProductsPage(String url) {
-        Elements productElements = DocumentDownloadUtil.downloadDocument(url)
-                .select(".productsimple-default");
+        Document document = DocumentDownloadUtil.downloadDocument(url);
+        return receiveProductsPage(document);
+    }
 
+    public List<Product> receiveProductsPage(Document document) {
+        Elements productElements = document.select(".productsimple-default");
         return List.ofAll(productElements)
                 .map(this::createProduct);
     }

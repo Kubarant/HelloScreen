@@ -5,66 +5,58 @@ import com.hello.screen.repository.ProductRepository;
 import com.hello.screen.repository.ProfileRepository;
 import com.hello.screen.services.ChecksumService;
 import com.hello.screen.services.ProductChoosingService;
+import io.vavr.collection.List;
 import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import reactor.core.Disposable;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class BiedronkaProductsCollector {
 
-    @Autowired
-    ChecksumService checksumService;
-    @Autowired
+    private static final String BIEDRONKA_URL = "http://biedronka.pl";
+    private BiedronkaProductParser productParser;
     private ProductChoosingService productChooser;
-    private BiedronkaProductsParser productsParser;
-
-    @Autowired
+    private ChecksumService checksumService;
     private ProfileRepository repository;
-
-    @Autowired
+    private BiedronkaProductsPagesFinder productsFinder;
     private ProductRepository productRepository;
 
 
-    public BiedronkaProductsCollector() {
-        super();
-        productsParser = new BiedronkaProductsParser();
+    @Autowired
+    public BiedronkaProductsCollector(ChecksumService checksumService, ProductChoosingService productChooser, ProfileRepository repository, ProductRepository productRepository) {
+        this.checksumService = checksumService;
+        this.productChooser = productChooser;
+        this.repository = repository;
+        this.productRepository = productRepository;
+        productsFinder = new BiedronkaProductsPagesFinder();
+        productParser = new BiedronkaProductParser();
+
     }
 
     @Scheduled(initialDelay = 2000, fixedDelay = 1000 * 60 * 60)
     public void collectProducts() {
-        List<Product> products = recieveProducts();
+        Logger.info("Start collecting products");
+        List<Product> products = receiveProducts();
         Logger.info("Found {} products", products.size());
 
-        checksumService.replaceObjectsIfNotAlreadyStored(products, productRepository)
+        checksumService.replaceObjectsIfNotAlreadyStored(products.asJava(), productRepository)
                 .doOnNext(aVoid -> saveProfilePreferredProducts(products))
                 .subscribe();
-
-
     }
 
-    private Disposable saveProfilePreferredProducts(List<Product> products) {
-        return repository.findAll()
-                .map(profile -> profile.setProducts(productChooser.filterPrefferedProducts(products, profile.getKeywords())))
+    private void saveProfilePreferredProducts(List<Product> products) {
+        repository.findAll()
+                .map(profile -> profile.setProducts(productChooser.filterPrefferedProducts(products.asJava(), profile.getKeywords())))
                 .subscribe(prof -> repository.save(prof)
                         .subscribe());
     }
 
-    private List<Product> recieveProducts() {
-        List<String> urls = productsParser.offersUrls();
-        return urls.stream()
-                .map(url -> productsParser.recieveProductsPage(this, url))
-                .filter(list -> !list.isEmpty())
-                .flatMap(Collection::stream)
-                .distinct()
-                .collect(Collectors.toList());
-
+    private List<Product> receiveProducts() {
+        return productsFinder.findProductPagesUris(BIEDRONKA_URL)
+                .map(productParser::receiveProductsPage)
+                .reduce((a, b) -> a.appendAll(b));
     }
 
 }

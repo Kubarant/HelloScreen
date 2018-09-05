@@ -13,9 +13,8 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class ImageWriter {
-    private final String imagesPath = "C:\\Users\\Kuba\\eclipse\\java-oxygen\\workspace\\git\\HelloScreen\\src\\main\\resources\\public\\imgosy"; // this.getClass().getResource("/productimg").getPath();
 
-    public static String urlValider(String name) {
+    public static String makeValidFileName(String name) {
         return name.toLowerCase()
                 .replaceAll("ż", "z")
                 .replaceAll("ł", "l")
@@ -29,37 +28,36 @@ public class ImageWriter {
                 .replaceAll("[^a-z0-9]", "");
     }
 
-    public void writeImage(BufferedImage image, String name) {
-        String valid = urlValider(name);
+    public void writeImage(BufferedImage image, String name, String imagesPath) {
+        String valid = makeValidFileName(name);
         Logger.debug("Writing {}.jpg image named {}", name, valid);
 
         try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + valid + ".jpg")) {
-
             ImageIO.write(image, "jpg", outputStream);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void clearFolder() {
-        System.out.println(new File(imagesPath).listFiles().length);
+    public boolean imageAlreadyExists(String name, String imagesPath) {
         File[] files = new File(imagesPath).listFiles();
-        Arrays.stream(files)
-                .forEach(File::delete);
-        System.out.println(new File(imagesPath).listFiles().length);
-    }
+        File[] safeFiles = Optional.ofNullable(files)
+                .orElse(new File[]{});
+        String validName = makeValidFileName(name);
 
-    public boolean imageAlreadyExists(String name) {
-        File[] files = new File(imagesPath).listFiles();
-        String valid = urlValider(name);
-        boolean anyMatch = Arrays.stream(files)
+        return Arrays.stream(safeFiles)
                 .anyMatch(file -> file.getName()
-                        .equals(valid + ".jpg"));
-
-        return anyMatch;
+                        .equals(validName + ".jpg"));
     }
 
-    public Optional<BufferedImage> instreamToImage(InputStream inputStream) {
+    private BufferedImage prepareImage(BufferedImage image) {
+        BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+        result.createGraphics()
+                .drawImage(image, 0, 0, Color.WHITE, null);
+        return result;
+    }
+
+    public Optional<BufferedImage> inStreamToImage(InputStream inputStream) {
         try {
             BufferedImage image = ImageIO.read(inputStream);
             BufferedImage rgbImg = prepareImage(image);
@@ -71,11 +69,5 @@ public class ImageWriter {
         }
     }
 
-    private BufferedImage prepareImage(BufferedImage image) {
-        BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-        result.createGraphics()
-                .drawImage(image, 0, 0, Color.WHITE, null);
-        return result;
-    }
 
 }

@@ -144,9 +144,15 @@ hr {
 
 #submit {
     margin: 20px 40px 0 0;
-   
     align-self: flex-end;
     font-size: 1.4rem;
     color: #f34263;
     width: 25%;
+}
+
+#error-label{
+    padding-top:10px;
+    padding-bottom:10px;
+    color:red;
+    font-weight:bold;
 }

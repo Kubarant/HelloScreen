@@ -27,7 +27,7 @@ nbdist/
 ### Other ###
 jaunt_cache
 imgosy
-src/**/icons/*.jpg
-src/**/icons/*.png
+!src/**/icons/*.jpg
+!src/**/icons/*.png
 @material
 material-components-web

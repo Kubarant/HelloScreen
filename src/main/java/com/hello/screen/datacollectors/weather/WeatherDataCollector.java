@@ -25,7 +25,7 @@ public class WeatherDataCollector {
     @Autowired
     private WeatherDataMapper dataMapper;
 
-    @Scheduled(fixedRate = 1000 * 60 * 30, initialDelay = 2000)
+    //@Scheduled(fixedRate = 1000 * 60 * 30, initialDelay = 2000)
     public void collectAndSave() {
         Logger.info("Start collecting current weather");
         Mono<WeatherData> currentWeather = collectCurrentWeather();

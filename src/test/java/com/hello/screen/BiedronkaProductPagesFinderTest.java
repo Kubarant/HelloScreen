@@ -26,7 +26,7 @@ public class BiedronkaProductPagesFinderTest {
 
     @Test
     public void findOfferPagesInValidDoc() {
-        List<String> urls = finder.findProductPagesUris(validDoc);
+        List<String> urls = finder.findProductPagesUrls(validDoc);
 
         assertEquals("/pl/chron-i-wydobywaj-piekno-27-08", urls.get(0));
         assertEquals("/pl/mapy-atlasy-20-08", urls.last());
@@ -36,7 +36,7 @@ public class BiedronkaProductPagesFinderTest {
     @Test
     public void findOfferPagesInEmptyDoc() {
         Document emptyDocument = Jsoup.parse("");
-        List<String> urls = finder.findProductPagesUris(emptyDocument);
+        List<String> urls = finder.findProductPagesUrls(emptyDocument);
 
         assertEquals(0, urls.size());
     }

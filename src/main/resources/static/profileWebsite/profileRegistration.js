@@ -1,8 +1,8 @@
 /**
  * 
  */
-document.addEventListener("DOMContentLoaded", function() {
 
+document.addEventListener("DOMContentLoaded", function() {
 let submit = document.getElementById("submit");
 
 submit.onclick = function() {
@@ -18,7 +18,13 @@ submit.onclick = function() {
 	).then(response => {
 	    window.location.replace("/ho?profilename="+name);
 		console.log(response)
-	});
+	}).catch(function (error) {
+	     let errors= error.response.data.errors
+          let errorMessages =errors.map(err=>err.defaultMessage+"\n").reduce((msg,msg2)=>msg+msg2);
+          console.log(errorMessages);
+          let errorLabel =document.getElementById("error-label");
+           errorLabel.innerText= errorMessages;
+        });
 	
 	
 	

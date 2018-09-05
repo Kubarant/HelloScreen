@@ -7,9 +7,20 @@ import io.vavr.collection.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BiedronkaProductParser {
-    private BiedronkaImageDownloader downloader = new BiedronkaImageDownloader();
+    private BiedronkaImageDownloader downloader;
+    private boolean downloadFlag;
+
+    @Autowired
+    public BiedronkaProductParser(BiedronkaImageDownloader downloader, @Value("true") boolean downloadFlag) {
+        this.downloader = downloader;
+        this.downloadFlag = downloadFlag;
+    }
 
     public List<Product> receiveProductsPage(String url) {
         Document document = DocumentDownloadUtil.downloadDocument(url);
@@ -25,12 +36,13 @@ public class BiedronkaProductParser {
     public Product createProduct(Element elements) {
         String price = extractPrice(elements);
         String name = extractName(elements);
-        String imgPath = extractImageUrl(elements);
+        String imageUrl = extractImageUrl(elements);
         String additionalInfo = extractAdditionalInfo(elements);
-        imgPath = ImageWriter.makeValidFileName(name);
-        downloader.writeImgIfNotAlreadyExist(name, imgPath);
+        String validImageName = ImageWriter.makeValidFileName(name);
+        if (downloadFlag)
+            downloader.writeImgIfNotAlreadyExist(validImageName, imageUrl);
 
-        return new Product(name, additionalInfo, price, imgPath);
+        return new Product(name, additionalInfo, price, validImageName);
     }
 
     private String extractAdditionalInfo(Element element) {

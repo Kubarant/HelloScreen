@@ -4,6 +4,9 @@ import com.hello.screen.ImageWriter;
 import io.vavr.control.Try;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.pmw.tinylog.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -12,26 +15,33 @@ import java.io.InputStream;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class BiedronkaImageDownloader {
-    public static final String crosme_proxy = "https://crossorigin.me/";
-    private static final String heroku_proxy = "https://cors-anywhere.herokuapp.com/";
+    private final String IMAGES_DIRECTORY_SPEL = "${biedronka.images.path:#{systemProperties['user.home'].concat('\\helloapp\\')}}";
+
+    @Value("${cors.proxy.url}")
+    private String corsProxyUrl;
+    private String imagesDirectoryPath;
     private ImageWriter imageWriter;
     private OkHttpClient httpClient;
 
-    public BiedronkaImageDownloader() {
+    public BiedronkaImageDownloader(@Value(value = IMAGES_DIRECTORY_SPEL) String imagesDirectoryPath) {
+        this.imagesDirectoryPath = imagesDirectoryPath;
         imageWriter = new ImageWriter();
         httpClient = new OkHttpClient.Builder().retryOnConnectionFailure(true)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
+
     }
 
     public void downloadAndSaveImage(String name, String url) {
         Request request = prepareImageDownloadRequest(url);
-        downloadImage(request).ifPresent(img -> imageWriter.writeImage(img, name));
+        downloadImage(request).ifPresent(img -> imageWriter.writeImage(img, name, imagesDirectoryPath));
     }
 
     private Optional<BufferedImage> downloadImage(Request request) {
-        Try<InputStream> makeRequest = Try.of(() -> getRequestInputStream(request));
+        Try<InputStream> makeRequest = Try.of(() -> getRequestInputStream(request))
+                .onFailure(Logger::warn);
         ByteArrayInputStream emptyInputStream = new ByteArrayInputStream(new byte[0]);
         InputStream imgInputStream = makeRequest.getOrElse(emptyInputStream);
         return imageWriter.inStreamToImage(imgInputStream);
@@ -46,14 +56,14 @@ public class BiedronkaImageDownloader {
     }
 
     private Request prepareImageDownloadRequest(String url) {
-        return new Request.Builder().url(heroku_proxy + url)
+        return new Request.Builder().url(corsProxyUrl + url)
                 .addHeader("Origin", "www.biedronka.pl")
                 .addHeader("Referer", "http://www.biedronka.pl/")
                 .build();
     }
 
     boolean imgAlreadyExists(String name) {
-        return imageWriter.imageAlreadyExists(name);
+        return imageWriter.imageAlreadyExists(name, imagesDirectoryPath);
     }
 
     public void writeImgIfNotAlreadyExist(String name, String imgPath) {

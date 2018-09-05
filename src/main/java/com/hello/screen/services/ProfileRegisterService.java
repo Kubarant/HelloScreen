@@ -13,7 +13,7 @@ public class ProfileRegisterService {
     private
     ProfileRepository profileRepository;
 
-    public void register(ProfileRegistrationDTO registrationDTO) {
+    public void registerNewUser(ProfileRegistrationDTO registrationDTO) {
         Profile profile = registrationDtoToProfile(registrationDTO);
         profileRepository.save(profile)
                 .subscribe();

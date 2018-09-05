@@ -8,19 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 public class ProfileRegistrationController {
 
     @Autowired
-    private
-    ProfileRegisterService registerService;
+    private ProfileRegisterService registerService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody ProfileRegistrationDTO profileRegistrationDTO) {
-
-        registerService.register(profileRegistrationDTO);
-        System.out.println(profileRegistrationDTO);
-
+    public ResponseEntity<?> register(@RequestBody @Valid ProfileRegistrationDTO profileRegistrationDTO) {
+        registerService.registerNewUser(profileRegistrationDTO);
         return ResponseEntity.ok()
                 .build();
     }

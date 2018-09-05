@@ -15,19 +15,18 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    private static final String GUEST_PROFILE_NAME = "unknown";
+    private ProfileRepository repository;
 
     @Autowired
-    private
-    ProfileRepository repository;
+    public ProductController(ProfileRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/prod/{profile}")
-    public Mono<List<Product>> prod(@PathVariable String profile) {
+    public Mono<List<Product>> products(@PathVariable String profileName) {
 
-        Mono<Profile> profileMono = repository.findByName(profile)
-                .log()
-                .switchIfEmpty(repository.findByName(GUEST_PROFILE_NAME));
-        Logger.debug("Products for {}", profile);
+        Mono<Profile> profileMono = repository.findByNameOrGetDefault(profileName);
+        Logger.debug("Serving products for {}", profileName);
         return profileMono.map(Profile::getProducts);
 
     }

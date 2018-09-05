@@ -22,7 +22,7 @@ public class NewsRestController {
         this.repos = repos;
     }
 
-    @GetMapping("/news/{profile}")
+    @GetMapping("/news/{profileName}")
     public Mono<List<News>> news(@PathVariable String profileName) {
         Logger.debug("News for {}", profileName);
         return repos.findByNameOrGetDefault(profileName)

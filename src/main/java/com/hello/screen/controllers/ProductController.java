@@ -22,7 +22,7 @@ public class ProductController {
         this.repository = repository;
     }
 
-    @GetMapping("/prod/{profile}")
+    @GetMapping("/prod/{profileName}")
     public Mono<List<Product>> products(@PathVariable String profileName) {
 
         Mono<Profile> profileMono = repository.findByNameOrGetDefault(profileName);

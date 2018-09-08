@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
-
     var news = new Vue({
         el: '#news',
         data: {
@@ -20,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 
             });
         },
-        
         updated(){
         	setTimeout(function(){
         		if(this.animation){
@@ -32,10 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
         			}
         	}, 4000);
         }
-        
     });
-
-
 });
 
 function dataformat(date) {

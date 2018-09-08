@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 var profilename = extractProfilename();
 document.addEventListener("DOMContentLoaded", function() {
     let header = new Vue({
@@ -9,11 +7,6 @@ document.addEventListener("DOMContentLoaded", function() {
             name: profilename
         }
     });
-
- 
-
-
-
 });
 
 function extractProfilename() {

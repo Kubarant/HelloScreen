@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 });
-//let ehh =Array.from(news.childNodes).map(el=>el.offsetHeight).reduce((a,b)=>return a+b);
 
 function map (num, in_min, in_max, out_min, out_max) {
 	  return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
@@ -44,13 +43,11 @@ function visibilityToLocalString(visibility) {}
 
 function dateformat(datestring) {
     const monthNames = ["Sty", "Lut", "Mar", "Kwi", "Maj", "Cze",
-        "Lip", "Sie", "Wrz", "Paż", "Lis", "Gru"
-    ];
+        "Lip", "Sie", "Wrz", "Paż", "Lis", "Gru"];
     let result = "";
     let date = new Date(datestring);
     result = date.getHours() + ":" + leftpad("0", 2, date.getMinutes()) + " " + date.getDate() + " " + monthNames[date.getMonth()];
     return result;
-
 }
 
 
@@ -102,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }]
             },
             options: {
-
                 legend: {
                     labels: {
                         fontColor: 'white'
@@ -134,9 +130,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
             }
         });
-        window.chna = chart;
-      
-        
         
     });
 

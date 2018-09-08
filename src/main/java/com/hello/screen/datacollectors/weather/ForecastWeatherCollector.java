@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +33,9 @@ public class ForecastWeatherCollector implements DataCollector<ForecastWeatherDa
     public List<ForecastWeatherData> collect() {
         Mono<String> responseBody = apiConnector.getJson(apiUrl);
         Mono<ForecastWeatherData> forecast = mapToForecastData(responseBody);
+
         save(forecast);
-        return Arrays.asList(forecast.block());
+        return Collections.emptyList();
     }
 
     private void save(Mono<ForecastWeatherData> forecast) {

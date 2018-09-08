@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +33,11 @@ public class WeatherDataCollector implements DataCollector<WeatherData> {
     public List collect() {
         Logger.info("Start collecting current weather");
         Mono<WeatherData> currentWeather = collectCurrentWeather();
+
         currentWeather.flatMap(data -> weatherRepository.save(data))
                 .subscribe();
         Logger.info("Ending collecting current weather");
-        return Arrays.asList(currentWeather.block());
+        return Collections.emptyList();
     }
 
     public Mono<WeatherData> collectCurrentWeather() {

@@ -33,7 +33,7 @@ public class ProfileRegistrationTest {
         Profile expectedProfile = Profile.registrationDtoToProfile(profileToRegister);
 
         client.post()
-                .uri("/registerNewUser")
+                .uri("/register")
                 .body(Mono.just(profileToRegister), ProfileRegistrationDTO.class)
                 .exchange()
                 .expectStatus()

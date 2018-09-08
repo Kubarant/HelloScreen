@@ -1,5 +1,6 @@
 package com.hello.screen.services;
 
+import com.hello.screen.datacollectors.biedronka.BiedronkaImageDownloader;
 import io.vavr.control.Try;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import static org.springframework.http.MediaType.IMAGE_JPEG;
 
 @Service
 public class ProductsImagesReader {
-    @Value("${biedronka.images.path}")
+    @Value(BiedronkaImageDownloader.IMAGES_DIRECTORY_SPEL)
     String imagesPath;
 
     public byte[] read(String imageName) throws IOException {

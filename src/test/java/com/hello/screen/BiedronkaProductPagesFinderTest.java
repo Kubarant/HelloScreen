@@ -8,6 +8,7 @@ import org.jsoup.parser.Parser;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.InputStream;
 
 import static org.junit.Assert.assertEquals;
@@ -19,7 +20,7 @@ public class BiedronkaProductPagesFinderTest {
     @Before
     public void setUp() throws Exception {
         InputStream newsInput = getClass().getClassLoader()
-                .getResourceAsStream("biedronka\\menu.html");
+                .getResourceAsStream("biedronka" + File.separator + "menu.html");
         validDoc = Jsoup.parse(newsInput, "UTF-8", "", Parser.htmlParser());
         finder = new BiedronkaProductsPagesFinder();
     }

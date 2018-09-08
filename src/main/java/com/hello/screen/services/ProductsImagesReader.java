@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -20,8 +19,7 @@ public class ProductsImagesReader {
     String imagesPath;
 
     public byte[] read(String imageName) throws IOException {
-        URI uri = URI.create(imagesPath + File.separator + imageName);
-        Path imgPath = Paths.get(uri);
+        Path imgPath = Paths.get(imagesPath + File.separator + imageName);
         return Files.readAllBytes(imgPath);
     }
 

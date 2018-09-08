@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -19,9 +19,9 @@ import static org.junit.Assert.assertFalse;
 @RunWith(SpringRunner.class)
 public class JsonWeatherToObjectMappingTest {
 
-    WeatherDataMapper dataMapper;
-    String currentWeatherJson;
-    String forecastWeatherJson;
+    private WeatherDataMapper dataMapper;
+    private String currentWeatherJson;
+    private String forecastWeatherJson;
 
     @Before
     public void setUp() throws Exception {
@@ -38,13 +38,12 @@ public class JsonWeatherToObjectMappingTest {
                         .getResource("forecast.json")
                         .toURI()));
 
-        currentWeatherJson = new String(currentData);
-        forecastWeatherJson = new String(forecastData);
-
+        currentWeatherJson = new String(currentData, Charset.forName("UTF-8"));
+        forecastWeatherJson = new String(forecastData, Charset.forName("UTF-8"));
     }
 
     @Test
-    public void currentWeatherMappingTest() throws IOException {
+    public void currentWeatherMappingTest() {
         WeatherData weatherData = dataMapper.currentWeatherFromJson(currentWeatherJson)
                 .get();
 
@@ -61,7 +60,7 @@ public class JsonWeatherToObjectMappingTest {
     }
 
     @Test
-    public void forecastWeatherMappingTest() throws IOException {
+    public void forecastWeatherMappingTest() {
         ArrayList<WeatherData> weatherData = dataMapper.forecastWeatherFromJson(forecastWeatherJson)
                 .get();
         assertEquals(weatherData.size(), 40);

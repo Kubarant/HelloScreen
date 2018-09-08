@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class BiedronkaImageDownloader {
-    private final String IMAGES_DIRECTORY_SPEL = "${biedronka.images.path:#{systemProperties['user.home'].concat('\\helloapp\\')}}";
+    private static final String IMAGES_DIRECTORY_SPEL = "${biedronka.images.path:#{systemProperties['user.home'].concat('\\helloapp\\')}}";
 
     @Value("${cors.proxy.url}")
     private String corsProxyUrl;

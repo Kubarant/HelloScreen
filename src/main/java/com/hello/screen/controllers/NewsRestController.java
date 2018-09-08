@@ -15,17 +15,17 @@ import java.util.List;
 @RestController
 public class NewsRestController {
 
-    private ProfileRepository repos;
+    private final ProfileRepository profileRepository;
 
     @Autowired
-    public NewsRestController(ProfileRepository repos) {
-        this.repos = repos;
+    public NewsRestController(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
     }
 
     @GetMapping("/news/{profileName}")
     public Mono<List<News>> news(@PathVariable String profileName) {
         Logger.debug("News for {}", profileName);
-        return repos.findByNameOrGetDefault(profileName)
+        return profileRepository.findByNameOrGetDefault(profileName)
                 .map(Profile::getNews);
     }
 

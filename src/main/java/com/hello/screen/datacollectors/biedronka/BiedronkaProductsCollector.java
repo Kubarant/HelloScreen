@@ -1,10 +1,6 @@
 package com.hello.screen.datacollectors.biedronka;
 
 import com.hello.screen.model.Product;
-import com.hello.screen.repository.ProductRepository;
-import com.hello.screen.repository.ProfileRepository;
-import com.hello.screen.services.ChecksumService;
-import com.hello.screen.services.ProductChoosingService;
 import io.vavr.collection.List;
 import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +13,14 @@ public class BiedronkaProductsCollector {
 
     private static final String BIEDRONKA_URL = "http://biedronka.pl";
     private BiedronkaProductParser productParser;
-    private ProductChoosingService productChooser;
-    private ChecksumService checksumService;
-    private ProfileRepository repository;
     private BiedronkaProductsPagesFinder productsFinder;
-    private ProductRepository productRepository;
-
+    private BiedronkaPreferredProductsSaver preferredProductsSaver;
 
     @Autowired
-    public BiedronkaProductsCollector(ChecksumService checksumService, ProductChoosingService productChooser, ProfileRepository repository, ProductRepository productRepository) {
-        this.checksumService = checksumService;
-        this.productChooser = productChooser;
-        this.repository = repository;
-        this.productRepository = productRepository;
-        productsFinder = new BiedronkaProductsPagesFinder();
-        productParser = new BiedronkaProductParser();
-
+    public BiedronkaProductsCollector(BiedronkaProductParser productParser, BiedronkaProductsPagesFinder productsFinder, BiedronkaPreferredProductsSaver preferredProductsSaver) {
+        this.productParser = productParser;
+        this.productsFinder = productsFinder;
+        this.preferredProductsSaver = preferredProductsSaver;
     }
 
     @Scheduled(initialDelay = 2000, fixedDelay = 1000 * 60 * 60)
@@ -40,23 +28,13 @@ public class BiedronkaProductsCollector {
         Logger.info("Start collecting products");
         List<Product> products = receiveProducts();
         Logger.info("Found {} products", products.size());
-
-        checksumService.replaceObjectsIfNotAlreadyStored(products.asJava(), productRepository)
-                .doOnNext(aVoid -> saveProfilePreferredProducts(products))
-                .subscribe();
-    }
-
-    private void saveProfilePreferredProducts(List<Product> products) {
-        repository.findAll()
-                .map(profile -> profile.setProducts(productChooser.filterPrefferedProducts(products.asJava(), profile.getKeywords())))
-                .subscribe(prof -> repository.save(prof)
-                        .subscribe());
+        preferredProductsSaver.fitProductsToProfile(products);
     }
 
     private List<Product> receiveProducts() {
-        return productsFinder.findProductPagesUris(BIEDRONKA_URL)
+        return productsFinder.findProductPagesUrls(BIEDRONKA_URL)
                 .map(productParser::receiveProductsPage)
-                .reduce((a, b) -> a.appendAll(b));
+                .reduce(List::appendAll);
     }
 
 }

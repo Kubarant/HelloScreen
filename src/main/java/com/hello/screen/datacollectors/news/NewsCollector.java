@@ -32,7 +32,7 @@ public class NewsCollector implements DataCollector<News> {
         Logger.info("Start collecting news from {newsUrls}", newsUrls);
 
         List<News> news = collectCategories()
-                .reduce((a, b) -> a.appendAll(b));
+                .reduce(List::appendAll);
         Logger.debug("Collected news     {news}", news);
 
         checksumService.replaceObjectsIfNotAlreadyStored(news.asJava(), newsRepository)
@@ -40,7 +40,7 @@ public class NewsCollector implements DataCollector<News> {
         saver.matchNewsForEachProfile(news);
         Logger.info("Ending collecting news");
 
-        return null;
+        return news.asJava();
     }
 
 

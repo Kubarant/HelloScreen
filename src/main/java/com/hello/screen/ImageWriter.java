@@ -29,10 +29,10 @@ public class ImageWriter {
     }
 
     public void writeImage(BufferedImage image, String name, String imagesPath) {
-        String valid = makeValidFileName(name);
-        Logger.debug("Writing {}.jpg image named {}", name, valid);
+        String validName = makeValidFileName(name);
+        Logger.debug("Writing {}.jpg image named {}", name, validName);
 
-        try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + valid + ".jpg")) {
+        try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + validName + ".jpg")) {
             ImageIO.write(image, "jpg", outputStream);
         } catch (IOException e) {
             e.printStackTrace();

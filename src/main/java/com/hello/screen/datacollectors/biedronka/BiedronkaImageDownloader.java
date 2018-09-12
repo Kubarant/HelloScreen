@@ -1,9 +1,11 @@
 package com.hello.screen.datacollectors.biedronka;
 
 import com.hello.screen.ImageWriter;
+import io.vavr.control.Option;
 import io.vavr.control.Try;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,7 @@ public class BiedronkaImageDownloader {
     }
 
     private Optional<BufferedImage> downloadImage(Request request) {
-        Try<InputStream> makeRequest = Try.of(() -> getRequestInputStream(request))
+        Try<InputStream> makeRequest = Try.of(() -> getRequestInputStreamSafe(request))
                 .onFailure(Logger::warn);
         ByteArrayInputStream emptyInputStream = new ByteArrayInputStream(new byte[0]);
         InputStream imgInputStream = makeRequest.getOrElse(emptyInputStream);
@@ -48,11 +50,17 @@ public class BiedronkaImageDownloader {
 
     }
 
-    private InputStream getRequestInputStream(Request request) throws IOException {
+    private ResponseBody getRequestInputStream(Request request) throws IOException {
         return httpClient.newCall(request)
                 .execute()
-                .body()
-                .byteStream();
+                .body();
+    }
+
+    private InputStream getRequestInputStreamSafe(Request request) throws IOException {
+        ByteArrayInputStream emptyInputStream = new ByteArrayInputStream(new byte[0]);
+        return Option.of(getRequestInputStream(request))
+                .map(ResponseBody::byteStream)
+                .getOrElse(emptyInputStream);
     }
 
     private Request prepareImageDownloadRequest(String url) {

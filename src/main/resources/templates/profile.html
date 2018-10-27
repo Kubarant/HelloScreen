@@ -13,7 +13,7 @@
 
     <link rel="stylesheet" type="text/css" href="profileWebsite/profstyle.css"/>
 
-    <title>Insert title here</title>
+    <title>Rejstracja</title>
 </head>
 <body>
 <div class="container">
@@ -38,9 +38,9 @@
                     class="input-trailing-icon material-icons mdc-chip__icon mdc-chip__icon--trailing"
                     tabindex="0" role="button">x</i>
         </div>
-        <h2 class="mdc-typography mdc-typography--headline4 keywords-title">Słowa kluczowe produktów</h2>
+        <h2 class="mdc-typography mdc-typography--headline4 keywords-title">Słowa kluczowe lubianych produktów</h2>
         <div style="margin: 3px 30px;">
-            <input id="input-chip-set-input" placeholder="Chip text">
+            <input id="input-chip-set-input" placeholder="Słowo kluczowe">
             <button id="input-chip-set-button"
                     class="mdc-button mdc-button--dense">Dodaj
             </button>
@@ -92,7 +92,7 @@
             <div class="slider-group">
                 <input type="text" name="news" class="slider-label" disabled>
                 <input type="range" min="0" max="100" value="20" class="slider" name="All">
-                <span class="slider-category">Główne</span>
+                <span class="slider-category">Inne</span>
             </div>
 
         </div>
@@ -133,10 +133,6 @@
 		function getKeywords(){
 			return inputChipSetComponent.chips.map(el=>el.root_.innerText).map(el=> el.slice(2,el.length-3));
 		}
-		
-		
-		
-
 </script>
 </body>
 </html>

@@ -22,7 +22,6 @@ public class ProductChoosingService {
         Logger.info("prodsize {}  {} {}", products.size(), result.size(), keywords);
 
         fillWithRandomProductsToFixedSize(products, result, defaultProductsAmount);
-        System.out.println("\n\n\nresult = " + result);
         return ListUtil.sublist(result, 0, defaultProductsAmount);
     }
 

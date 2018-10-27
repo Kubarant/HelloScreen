@@ -31,9 +31,8 @@ public class BiedronkaImageDownloader {
         this.imagesDirectoryPath = imagesDirectoryPath;
         imageWriter = new ImageWriter();
         httpClient = new OkHttpClient.Builder().retryOnConnectionFailure(true)
-                .connectTimeout(5, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
                 .build();
-
     }
 
     public void downloadAndSaveImage(String name, String url) {
@@ -43,7 +42,7 @@ public class BiedronkaImageDownloader {
 
     private Optional<BufferedImage> downloadImage(Request request) {
         Try<InputStream> makeRequest = Try.of(() -> getRequestInputStreamSafe(request))
-                .onFailure(Logger::warn);
+                .onFailure(e -> Logger.warn("Can't download an Image " + e));
         ByteArrayInputStream emptyInputStream = new ByteArrayInputStream(new byte[0]);
         InputStream imgInputStream = makeRequest.getOrElse(emptyInputStream);
         return imageWriter.inStreamToImage(imgInputStream);

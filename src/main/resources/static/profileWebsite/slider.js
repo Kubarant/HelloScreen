@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     let slidersHC = document.getElementsByClassName("slider");
     var sliders = Array.from(slidersHC);
-//    sliders.forEach(slider => slider.value = 25);
+
     setInitialSlidersValues("cat-chooser");
     sliders.forEach(el => updateLabels(el));
     sliders.forEach(slider => slider.onchange = function() {
@@ -12,9 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     sliders.forEach(slider => slider.oninput = function() {
         let sliders = Array.from(document.getElementsByClassName("slider"));
         let sum = 0;
-        //        sliders.forEach(el=>console.log(el.value));
         sliders.forEach(el => sum += Number.parseInt(el.value));
-        //console.log(sum+" ehh");
         if (sum > 100) {
             let other = sliders.filter(el => el != this && el.value > 0);
             let randomOther = other[Math.floor(Math.random() * other.length)];
@@ -31,8 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             let difference = Number.parseInt(randomOthers.value) + (100 - sum);
-
-            //           console.log(difference);
             randomOthers.value = difference;
 
         }
@@ -123,8 +119,6 @@ function getSliders(slidersid) {
 
 function extractSliderData(slidersGroup) {
     let childs = Array.from(slidersGroup.childNodes);
-    //let label = findElementsContainingClass(childs, "slider-category")[0].innerText;
-    //let value = findElementsContainingClass(childs, "slider")[0].value;
     let slider =findElementsContainingClass(childs, "slider")[0];
     let value= slider.value;
     let label = slider.name;

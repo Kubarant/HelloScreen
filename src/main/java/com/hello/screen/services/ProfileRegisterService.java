@@ -30,7 +30,8 @@ public class ProfileRegisterService {
 
     public void registerNewUser(ProfileRegistrationDTO registrationDTO) {
         Profile profile = registrationDtoToProfile(registrationDTO);
-        profileRepository.save(profile)
+        Profile profileWithFeed = setFirstPreferredStuff(profile);
+        profileRepository.save(profileWithFeed)
                 .subscribe();
     }
 
@@ -39,7 +40,7 @@ public class ProfileRegisterService {
         profile.setKeywords(registrationDTO.getKeywords());
         profile.setName(registrationDTO.getName());
         profile.setPreferredCategories(registrationDTO.getPreferences());
-        return setFirstPreferredStuff(profile);
+        return profile;
     }
 
     public Profile setFirstPreferredStuff(Profile profile) {

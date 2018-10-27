@@ -9,6 +9,7 @@ import io.vavr.collection.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -42,6 +43,9 @@ public class PreferredNewsSaver {
     }
 
     private java.util.List<News> fitNewsToProfile(List<News> news, Profile profile) {
+        if (news.isEmpty())
+            return Collections.emptyList();
+
         Map<String, java.util.List<News>> categoryNews = news.collect(groupingBy(News::getCategory));
         return chooserService.choosePreferredNews(categoryNews, profile.getPreferredCategories());
     }

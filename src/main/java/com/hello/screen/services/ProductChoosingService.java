@@ -18,9 +18,11 @@ public class ProductChoosingService {
      * @return products containing any keyword and if it's less than specified in app.properties products it filled to default amount with random products
      */
     public List<Product> filterPrefferedProducts(List<Product> products, List<String> keywords) {
+        if (products.isEmpty())
+            return Collections.emptyList();
+
         ArrayList<Product> result = extractProductsContainingKeywords(products, keywords);
         Logger.info("prodsize {}  {} {}", products.size(), result.size(), keywords);
-
         fillWithRandomProductsToFixedSize(products, result, defaultProductsAmount);
         return ListUtil.sublist(result, 0, defaultProductsAmount);
     }

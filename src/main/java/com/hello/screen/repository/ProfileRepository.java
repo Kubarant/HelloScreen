@@ -5,7 +5,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Mono;
 
 public interface ProfileRepository extends ReactiveCrudRepository<Profile, String> {
-    String GUEST_PROFILE_NAME = "UNKNOWN";
+    String GUEST_PROFILE_NAME = "unknown";
 
     Mono<Profile> findByName(String name);
 

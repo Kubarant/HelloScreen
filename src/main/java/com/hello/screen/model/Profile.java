@@ -35,12 +35,15 @@ public class Profile {
         this.keywords = keywords;
         products = new ArrayList<>();
         preferredCategories = new ArrayList<>();
+        news = new ArrayList<>();
     }
 
     public Profile() {
         super();
         products = new ArrayList<>();
         preferredCategories = new ArrayList<>();
+        news = new ArrayList<>();
+
     }
 
     public static Profile registrationDtoToProfile(ProfileRegistrationDTO registrationDTO) {
@@ -89,9 +92,9 @@ public class Profile {
         return news;
     }
 
-    public List<News> setNews(List<News> news) {
+    public Profile setNews(List<News> news) {
         this.news = news;
-        return this.news;
+        return this;
     }
 
     public List<CategoryPreferences> getPreferredCategories() {

@@ -1,6 +1,7 @@
 package com.hello.screen.datacollectors.biedronka;
 
 import com.hello.screen.model.Product;
+import com.hello.screen.model.Profile;
 import com.hello.screen.repository.ProductRepository;
 import com.hello.screen.repository.ProfileRepository;
 import com.hello.screen.services.ChecksumService;
@@ -8,6 +9,7 @@ import com.hello.screen.services.ProductChoosingService;
 import io.vavr.collection.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class BiedronkaPreferredProductsSaver {
@@ -24,16 +26,16 @@ public class BiedronkaPreferredProductsSaver {
         this.checksumService = checksumService;
     }
 
-    private void saveProfilePreferredProducts(List<Product> products) {
-        repository.findAll()
+    private Mono<java.util.List<Profile>> saveProfilePreferredProducts(List<Product> products) {
+        return repository.findAll()
                 .map(profile -> profile.setProducts(productChooser.filterPrefferedProducts(products.asJava(), profile.getKeywords())))
                 .flatMap(prof -> repository.save(prof))
-                .subscribe();
+                .collectList();
     }
 
     public void fitProductsToProfile(List<Product> products) {
         checksumService.replaceObjectsIfNotAlreadyStored(products.asJava(), productRepository)
-                .doOnNext(aVoid -> saveProfilePreferredProducts(products))
+                .flatMap(avoid -> saveProfilePreferredProducts(products))
                 .subscribe();
     }
 

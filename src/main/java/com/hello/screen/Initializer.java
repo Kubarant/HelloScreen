@@ -2,6 +2,7 @@ package com.hello.screen;
 
 
 import com.hello.screen.datacollectors.biedronka.BiedronkaImageDownloader;
+import com.hello.screen.model.CategoryPreferences;
 import com.hello.screen.model.Profile;
 import com.hello.screen.repository.ProfileRepository;
 import io.vavr.control.Try;
@@ -13,7 +14,9 @@ import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 public class Initializer {
@@ -43,7 +46,13 @@ public class Initializer {
     }
 
     public Profile createGuestProfile() {
-        return new Profile(GUEST_PROFILE_NAME, Collections.emptyList());
+        List<CategoryPreferences> categoryPreferences = Arrays.asList(new CategoryPreferences("All", 16), new CategoryPreferences("Sport", 14),
+                new CategoryPreferences("Pol", 14), new CategoryPreferences("Fun", 14),
+                new CategoryPreferences("Local", 14), new CategoryPreferences("Economy", 14), new CategoryPreferences("Tech", 14));
+
+        Profile profile = new Profile(GUEST_PROFILE_NAME, Collections.emptyList());
+        profile.setPreferredCategories(categoryPreferences);
+        return profile;
     }
 
     public void checkProductImagesDirectoryExist() {

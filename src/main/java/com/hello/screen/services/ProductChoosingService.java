@@ -2,6 +2,7 @@ package com.hello.screen.services;
 
 import com.hello.screen.model.Product;
 import com.hello.screen.utils.ListUtil;
+import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,10 @@ public class ProductChoosingService {
      */
     public List<Product> filterPrefferedProducts(List<Product> products, List<String> keywords) {
         ArrayList<Product> result = extractProductsContainingKeywords(products, keywords);
-//        Logger.info("prodsize {}  {} {}",products.size(),result.size(),keywords);
+        Logger.info("prodsize {}  {} {}", products.size(), result.size(), keywords);
 
         fillWithRandomProductsToFixedSize(products, result, defaultProductsAmount);
-
+        System.out.println("\n\n\nresult = " + result);
         return ListUtil.sublist(result, 0, defaultProductsAmount);
     }
 
@@ -55,7 +56,7 @@ public class ProductChoosingService {
         Optional<Boolean> reduce = keywords.stream()
                 .map(arg::contains)
                 .reduce((a, b) -> a | b);
-        return reduce.get();
+        return reduce.orElse(false);
     }
 
     private List<Product> getRandomProducts(List<Product> products, int amount) {

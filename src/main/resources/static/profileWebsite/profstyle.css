@@ -62,11 +62,17 @@ hr {
     flex-basis: 100%;
     align-items: center;
 }
+#header{
+    font-size: 3rem;
+}
 
 #name {
     width: 60%;
     margin-left: 10px;
     margin-right: 10%;
+}
+.keywords-group-container{
+    margin: 5px 30px;
 }
 
 .keywords {
@@ -150,9 +156,92 @@ hr {
     width: 25%;
 }
 
-#error-label{
-    padding-top:10px;
-    padding-bottom:10px;
-    color:red;
-    font-weight:bold;
+#error-label {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: red;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 1080px) {
+    body {
+        height: auto;
+        overflow: initial;
+        min-height: 100vh;
+    }
+    .container {
+        grid-template-columns: 1fr 94% 1fr;
+        grid-template-rows: 1fr auto 1fr;
+        min-height: 100vh;
+        height:auto;
+    }
+    .form {
+        height: auto;
+    }
+    #header{
+        font-size: 4.5rem;
+    }
+    #name {
+        font-size: 2rem;
+    }
+    hr {
+        border-top-width: 10px;
+    }
+    .keywords-group-container{
+        margin: 25px 30px;
+    }
+    .keywords-title {
+        font-size: 2.3rem;
+    }
+     #input-chip-set-input{
+        font-size: 1.5rem;
+     }
+    #input-chip-set-button{
+        font-size: 1.5rem;
+        padding: 0px 12px 4px 12px;
+     }
+    .sliders {
+        width: 85%;
+        margin: 10px 0px;
+        padding: 30px 30px;
+        border: solid 4px #0002;
+    }
+    .slider-group {
+        margin: 25px 0px 25px 10px;
+    }
+    .slider {
+        height: 2.3rem;
+    }
+    .slider::-webkit-slider-thumb {
+        width: 3rem;
+        height: 3rem;
+    }
+    .slider::-moz-range-thumb {
+        width: 3rem;
+        height: 3rem;
+    }
+    .slider-label {
+        display: inline-block;
+        width: 10%;
+        margin: 0;
+        margin-right: 10px;
+        font-size: 2.5rem;
+    }
+    .slider-category {
+        position: absolute;
+        top: -45px;
+        left: 45%;
+        font-size: 1.8rem;
+    }
+    #submit {
+        align-self: flex-end;
+        font-size: 3.0rem;
+        padding: 10px 20px;
+        width:auto;
+        height:auto;
+        margin: 20px 40px 20px 0px;
+    }
+    #error-label {
+       font-size:1.8rem;
+    }
 }

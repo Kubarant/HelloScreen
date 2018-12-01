@@ -325,7 +325,6 @@ body {
   }
    .news{
         overflow-y:scroll;
-
    }
    #mixed-chart{
         display:none !important;
@@ -337,10 +336,12 @@ body {
  .weather{
     min-width:100%;
     min-height:auto;
+    height:auto;
  }
  .weather>.temp {
      grid-template-columns: 30% 30% 1fr 47%;
      grid-template-areas: "temp temp . icon" "props props . icon" "chart chart chart chart";
+     margin:0;
  }
  #weather-icon {
      height: 100%;

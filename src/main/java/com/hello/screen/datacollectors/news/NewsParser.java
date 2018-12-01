@@ -38,15 +38,16 @@ public class NewsParser {
                 .get();
     }
 
-    private News mapToNews(Element el) {
-        String title = parseFromPath(el, "title");
-        String link = parseFromPath(el, "link");
+    private News mapToNews(Element rootElement) {
+        String title = parseFromPath(rootElement, "title");
+        String link = parseFromPath(rootElement, "link");
 
-        String date = parseFromPath(el, "pubDate");
+        String date = parseFromPath(rootElement, "pubDate");
         LocalDateTime pubDate = LocalDateTime.parse(date, DateTimeFormatter.RFC_1123_DATE_TIME);
-        String imageLink = parseImageLink(el);
 
-        Document description = getDescription(el);
+        Document description = getDescription(rootElement);
+        String imageLink = parseImageLink(rootElement, description);
+
         String desc = parseFromPath(description, "a");
 
         return new News(title, "", pubDate, desc, link, imageLink);
@@ -61,9 +62,15 @@ public class NewsParser {
         return descriptionDoc;
     }
 
-    private String parseImageLink(Element description) {
-        return description.select("media|content")
+    private String parseImageLink(Element rootElement, Document description) {
+        String linkFromNewVersion = rootElement.select("media|content")
                 .attr("url");
+        return linkFromNewVersion.isEmpty() ? parseImageLinkFromDescription(description) : linkFromNewVersion;
+    }
+
+    private String parseImageLinkFromDescription(Document description) {
+        return description.select("img")
+                .attr("src");
     }
 
     private String parseFromPath(Element el, String title) {

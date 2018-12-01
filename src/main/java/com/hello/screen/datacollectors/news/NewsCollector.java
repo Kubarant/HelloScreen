@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
-public class NewsCollector implements DataCollector<News> {
+class NewsCollector implements DataCollector<News> {
     private ChecksumService checksumService;
     private NewsRepository newsRepository;
     private NewsProperties newsUrls;

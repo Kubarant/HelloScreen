@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ForecastWeatherCollector implements DataCollector<ForecastWeatherData> {
+class ForecastWeatherCollector implements DataCollector<ForecastWeatherData> {
     @Value("${weather.forecast.url}")
     private String apiUrl;
     private WeatherApiConnector apiConnector;

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "news")
-public class NewsProperties {
+class NewsProperties {
 
     @Value("${news.mainUrl}")
     String mainUrl;

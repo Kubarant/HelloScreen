@@ -7,7 +7,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service
-public class WeatherApiConnector {
+class WeatherApiConnector {
     @Value("${weather.api.key}")
     String apiKey;
 

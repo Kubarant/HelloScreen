@@ -16,7 +16,7 @@ import java.util.Optional;
 public class WeatherDataMapper {
 
 
-    private static WeatherData recieveWeatherDataFromNode(JsonNode node) {
+    private static WeatherData receiveWeatherDataFromNode(JsonNode node) {
 
         String weather = node.path("weather")
                 .get(0)
@@ -53,16 +53,16 @@ public class WeatherDataMapper {
         return new WeatherData(temp, pressure, humidity, visibility, windSpeed, date, sunrise, sunset, LocalDateTime.now(), weather, snow, rain);
     }
 
-    public static ArrayList<WeatherData> recieveWeatherDataFromNodes(ArrayList<JsonNode> nodes) {
+    public static ArrayList<WeatherData> receiveWeatherDataFromNodes(ArrayList<JsonNode> nodes) {
         ArrayList<WeatherData> list = new ArrayList<>();
         for (JsonNode node : nodes) {
-            list.add(recieveWeatherDataFromNode(node));
+            list.add(receiveWeatherDataFromNode(node));
         }
         return list;
     }
 
     public Optional<WeatherData> jsonToWeatherData(String json) {
-        return stringToJsonNode(json).map(WeatherDataMapper::recieveWeatherDataFromNode);
+        return stringToJsonNode(json).map(WeatherDataMapper::receiveWeatherDataFromNode);
 
     }
 
@@ -87,7 +87,7 @@ public class WeatherDataMapper {
         Optional<JsonNode> node = stringToJsonNode(json);
         return node.map(n -> n.path("list"))
                 .map(JsonUtil::mapToArraylist)
-                .map(WeatherDataMapper::recieveWeatherDataFromNodes);
+                .map(WeatherDataMapper::receiveWeatherDataFromNodes);
 
     }
 

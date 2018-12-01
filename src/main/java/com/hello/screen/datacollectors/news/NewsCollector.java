@@ -28,21 +28,23 @@ class NewsCollector implements DataCollector<News> {
     }
 
     @Scheduled(fixedDelay = 60 * 1000 * 60, initialDelay = 2000)
-    public java.util.List<News> collect() {
+    public void collectAndSave() {
         Logger.info("Start collecting news from {newsUrls}", newsUrls);
 
-        List<News> news = collectCategories()
-                .reduce(List::appendAll);
+        List<News> news = collect();
         Logger.debug("Collected news     {news}", news);
 
         checksumService.replaceObjectsIfNotAlreadyStored(news.asJava(), newsRepository)
                 .subscribe();
         saver.matchNewsForEachProfile(news);
         Logger.info("Ending collecting news");
-
-        return news.asJava();
     }
 
+    @Override
+    public List<News> collect() {
+        return collectCategories()
+                .reduce(List::appendAll);
+    }
 
     private List<List<News>> collectCategories() {
         List<News> all = newsParser.parseNews(newsUrls.mainUrl, "All");

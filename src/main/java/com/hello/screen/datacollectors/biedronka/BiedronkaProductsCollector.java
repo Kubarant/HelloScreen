@@ -1,5 +1,6 @@
 package com.hello.screen.datacollectors.biedronka;
 
+import com.hello.screen.datacollectors.DataCollector;
 import com.hello.screen.model.Product;
 import io.vavr.collection.List;
 import org.pmw.tinylog.Logger;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class BiedronkaProductsCollector {
+public class BiedronkaProductsCollector implements DataCollector<Product> {
 
     private static final String BIEDRONKA_URL = "http://biedronka.pl";
     private BiedronkaProductParser productParser;
@@ -24,14 +25,15 @@ public class BiedronkaProductsCollector {
     }
 
     @Scheduled(initialDelay = 2000, fixedDelay = 1000 * 60 * 60)
-    public void collectProducts() {
+    public void collectAndSave() {
         Logger.info("Start collecting products");
-        List<Product> products = receiveProducts();
+        List<Product> products = collect();
         Logger.info("Found {} products", products.size());
         preferredProductsSaver.fitProductsToProfile(products);
     }
 
-    private List<Product> receiveProducts() {
+    @Override
+    public List<Product> collect() {
         return productsFinder.findProductPagesUrls(BIEDRONKA_URL)
                 .map(productParser::receiveProductsPage)
                 .reduce(List::appendAll);

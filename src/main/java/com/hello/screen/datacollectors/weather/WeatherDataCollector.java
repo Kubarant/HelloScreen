@@ -10,8 +10,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,14 +28,13 @@ public class WeatherDataCollector implements DataCollector<WeatherData> {
     }
 
     @Scheduled(fixedRate = 1000 * 60 * 30, initialDelay = 2000)
-    public List collect() {
+    public void collectAndSave() {
         Logger.info("Start collecting current weather");
         Mono<WeatherData> currentWeather = collectCurrentWeather();
 
         currentWeather.flatMap(data -> weatherRepository.save(data))
                 .subscribe();
         Logger.info("Ending collecting current weather");
-        return Collections.emptyList();
     }
 
     public Mono<WeatherData> collectCurrentWeather() {

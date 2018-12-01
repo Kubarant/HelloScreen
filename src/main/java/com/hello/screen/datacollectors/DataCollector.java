@@ -1,9 +1,14 @@
 package com.hello.screen.datacollectors;
 
-import java.util.List;
+
+import io.vavr.collection.List;
 
 public interface DataCollector<T> {
 
-    List<T> collect();
+    void collectAndSave();
+
+    default List<T> collect() {
+        return List.empty();
+    }
 
 }

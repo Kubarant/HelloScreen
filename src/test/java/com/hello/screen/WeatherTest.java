@@ -23,12 +23,10 @@ public class WeatherTest {
 
     @Test
     public void testIfEndpointServeProperData() {
-        weatherCollector.collect();
+        weatherCollector.collectAndSave();
 
         WeatherData currentWeather = weatherCollector.collectCurrentWeather()
                 .block();
-        weatherCollector.collect();
-
         webClient.get()
                 .uri("/sun")
                 .exchange()

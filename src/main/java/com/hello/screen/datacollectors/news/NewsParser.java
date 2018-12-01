@@ -44,8 +44,9 @@ public class NewsParser {
 
         String date = parseFromPath(el, "pubDate");
         LocalDateTime pubDate = LocalDateTime.parse(date, DateTimeFormatter.RFC_1123_DATE_TIME);
+        String imageLink = parseImageLink(el);
+
         Document description = getDescription(el);
-        String imageLink = parseImageLink(description);
         String desc = parseFromPath(description, "a");
 
         return new News(title, "", pubDate, desc, link, imageLink);
@@ -60,9 +61,9 @@ public class NewsParser {
         return descriptionDoc;
     }
 
-    private String parseImageLink(Document description) {
-        return description.select("img")
-                .attr("src");
+    private String parseImageLink(Element description) {
+        return description.select("media|content")
+                .attr("url");
     }
 
     private String parseFromPath(Element el, String title) {

@@ -32,8 +32,6 @@ public class WeatherTest {
                 .exchange()
                 .expectBody(WeatherData.class)
                 .isEqualTo(currentWeather);
-
-
     }
 
 }

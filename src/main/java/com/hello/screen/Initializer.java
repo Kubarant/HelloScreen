@@ -5,15 +5,13 @@ import com.hello.screen.datacollectors.biedronka.BiedronkaImageDownloader;
 import com.hello.screen.model.CategoryPreferences;
 import com.hello.screen.model.Profile;
 import com.hello.screen.repository.ProfileRepository;
-import io.vavr.control.Try;
-import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Mono;
 
 import javax.annotation.PostConstruct;
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -56,12 +54,8 @@ public class Initializer {
     }
 
     public void checkProductImagesDirectoryExist() {
-        Try.of(() -> Paths.get(productsImagesPath))
-                .onFailure(Logger::error)
-                .filter(path -> !path.toFile()
-                        .isDirectory())
-                .andThenTry(path -> path.toFile()
-                        .createNewFile())
-                .onFailure(Logger::error);
+        if (!new File(productsImagesPath).isDirectory()) {
+            new File(productsImagesPath).mkdirs();
+        }
     }
 }

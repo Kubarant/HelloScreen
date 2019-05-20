@@ -57,7 +57,9 @@
          v-on:mouseleave="if(this.animation)this.animation.play()">
 
         <div class="card" v-for="news in newses">
-            <img v-bind:src="news.imgLink">
+            <img v-bind:src="news.imgLink" v-if="news.imgLink">
+            <img src="icons/news.jpg" v-if="!news.imgLink">
+
             <h3>{{news.title}}</h3>
             <div><a :href="news.sourceLink">{{news.domain}}</a> <span style="text-align:right">{{news.date}}</span>
             </div>
@@ -68,7 +70,7 @@
     <div class="sales" id="sales">
         <div class="card" v-for="product in products">
             <div class="prod">
-                <img :src="product.url">
+                <img :src="product.url" onerror="this.onerror=null;this.src='icons/prod.jpg';">
                 <h3>{{product.name}}</h3>
                 <div class="price-container">
                     <span class="price">{{product.pln}}<sup>{{product.cents}}</sup></span>

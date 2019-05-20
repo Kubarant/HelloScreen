@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let header = new Vue({
         el: "#header",
         data: {
-            name: profilename
+            name: profilename=="unknown"?"":profilename
         }
     });
 });

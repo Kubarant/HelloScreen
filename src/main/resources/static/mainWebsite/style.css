@@ -162,7 +162,7 @@ body {
 .news .card {
     background-color: whitesmoke;
     margin: 0;
-    padding: 0 5px 0 0;
+    padding: 0 5px 5px 0;
     border: 2px solid var(--primary-color-light);
     border-radius: 10px;
     display: grid;

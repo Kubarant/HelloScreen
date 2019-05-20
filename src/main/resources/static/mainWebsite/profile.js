@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function extractProfilename() {
     let url = window.location.href;
-    let name = /http[^?]+\?profilename=(.*)(&|)/.exec(url);
+    let name = /[^?]+\?profilename=(.*)(&|)/.exec(url);
     if (name)
         return name[1] == null ? "unknown" : name[1];
     else

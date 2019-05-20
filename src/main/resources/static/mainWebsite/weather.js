@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 let sunrise = new Date(response.data.sunrise);
                 response.data.sunrise = leftpad("0", 2, sunrise.getHours()) + ":" + leftpad("0", 2, sunrise.getMinutes());
 
-                response.data.weather = "icons/" + response.data.weather + ".png";
+                response.data.weather = "/icons/" + response.data.weather + ".png";
                 this.wth = response.data;
  
             });

@@ -6,18 +6,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="mainWebsite/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/mainWebsite/style.css"/>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="mainWebsite/profile.js"></script>
+    <script src="/mainWebsite/profile.js"></script>
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.7.2/dist/Chart.js"></script>
-    <script src="mainWebsite/weather.js"></script>
-    <script src="mainWebsite/prod.js"></script>
-    <script src="mainWebsite/news.js"></script>
+    <script src="/mainWebsite/weather.js"></script>
+    <script src="/mainWebsite/prod.js"></script>
+    <script src="/mainWebsite/news.js"></script>
 
-    <link rel="icon" href="favicon.ico?" type="image/x-icon"/>
-    <link rel="shortcut icon" href="favicon.ico?" type="image/x-icon"/>
+    <link rel="icon" href="/favicon.ico?" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico?" type="image/x-icon"/>
 
 
 </head>
@@ -58,7 +58,7 @@
 
         <div class="card" v-for="news in newses">
             <img v-bind:src="news.imgLink" v-if="news.imgLink">
-            <img src="icons/news.jpg" v-if="!news.imgLink">
+            <img src="/icons/news.jpg" v-if="!news.imgLink">
 
             <h3>{{news.title}}</h3>
             <div><a :href="news.sourceLink">{{news.domain}}</a> <span style="text-align:right">{{news.date}}</span>
@@ -72,7 +72,7 @@
             <div class="prod">
                 <img :src="product.url" onerror="this.onerror=null;this.src='icons/prod.jpg';">
                 <h3>{{product.name}}</h3>
-                <div class="price-container">
+                <div class="price-container" v-if="product.pln">
                     <span class="price">{{product.pln}}<sup>{{product.cents}}</sup></span>
                 </div>
                 <div class="tooltip">?<span class="tooltip-content"> {{product.additionalInfo}}</span></div>

@@ -33,7 +33,6 @@ public class WeatherRestController {
         query.limit(1);
         query.with(new Sort(Sort.Direction.DESC, "creation"));
         List<WeatherData> find = template.find(query, WeatherData.class);
-        System.out.println("Ja per");
         Logger.debug("Current weather response {}", find);
 
         return Mono.just(find.get(0));

@@ -35,6 +35,7 @@ public class BiedronkaImageDownloader {
                 .build();
     }
 
+
     public void downloadAndSaveImage(String name, String url) {
         Request request = prepareImageDownloadRequest(url);
         downloadImage(request).ifPresent(img -> imageWriter.writeImage(img, name, imagesDirectoryPath));

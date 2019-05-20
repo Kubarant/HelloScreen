@@ -29,6 +29,7 @@ public class ImageWriter {
     }
 
     public void writeImage(BufferedImage image, String name, String imagesPath) {
+
         String validName = makeValidFileName(name);
         Logger.debug("Writing {}.jpg image named {}", name, validName);
 
@@ -50,19 +51,19 @@ public class ImageWriter {
                         .equals(validName + ".jpg"));
     }
 
-    private BufferedImage prepareImage(BufferedImage image) {
-        BufferedImage result = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-        result.createGraphics()
-                .drawImage(image, 0, 0, Color.WHITE, null);
-        return result;
+    private Optional<BufferedImage> prepareImage(Optional<BufferedImage> image) {
+        image.map(img -> new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB));
+        image.ifPresent(img -> img.createGraphics()
+                .drawImage(img, 0, 0, Color.WHITE, null));
+        return image;
     }
 
     public Optional<BufferedImage> inStreamToImage(InputStream inputStream) {
         try {
-            BufferedImage image = ImageIO.read(inputStream);
-            BufferedImage rgbImg = prepareImage(image);
+            Optional<BufferedImage> image = Optional.ofNullable(ImageIO.read(inputStream));
+            Optional<BufferedImage> rgbImg = prepareImage(image);
             inputStream.close();
-            return Optional.ofNullable(rgbImg);
+            return rgbImg;
         } catch (IOException e) {
             e.printStackTrace();
             return Optional.empty();

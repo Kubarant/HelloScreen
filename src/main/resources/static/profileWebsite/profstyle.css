@@ -47,7 +47,7 @@ hr {
     overflow: hidden;
     display: grid;
     grid-template-columns: 1fr minmax(600px, 45%) 1fr;
-    grid-template-rows: 5% 90% 5%;
+    grid-template-rows: 2% 96% 2%;
 }
 
 .form {

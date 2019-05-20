@@ -38,3 +38,8 @@ Maybe I didn't use all asynchronic capabilities that framework provide, but it's
  
 # Additional info
   It's been created to be self hosted service. 
+# Screenshoots
+Homepage
+![](https://github.com/Kubarant/HelloScreen/blob/master/src/main/resources/static/icons/main.png)
+ Register
+![](https://github.com/Kubarant/HelloScreen/blob/master/src/main/resources/static/icons/register.png)

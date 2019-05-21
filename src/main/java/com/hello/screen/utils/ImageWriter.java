@@ -19,7 +19,7 @@ public class ImageWriter {
     public void writeImage(BufferedImage image, String name, String imagesPath) {
 
         String validName = makeValidFileName(name);
-        Logger.debug("Writing {}.jpg image named {}", name, validName);
+        Logger.debug("Saving {}.jpg image named {}", name, validName);
 
         try (FileOutputStream outputStream = new FileOutputStream(imagesPath + File.separator + validName + ".jpg")) {
             ImageIO.write(image, "jpg", outputStream);

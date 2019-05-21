@@ -7,8 +7,8 @@ public class ListUtil {
 
 
     public static <T> List<T> combine(List<T> list1, List<T> list2) {
-        List<T> secureList1 = OptionalUtil.ifNullGet(list1, new ArrayList<>());
-        List<T> secureList2 = OptionalUtil.ifNullGet(list2, new ArrayList<>());
+        List<T> secureList1 = OptionalUtil.ifNullGet(list1, new ArrayList<T>());
+        List<T> secureList2 = OptionalUtil.ifNullGet(list2, new ArrayList<T>());
 
         List<T> res = new ArrayList<>(secureList1);
         res.addAll(secureList2);

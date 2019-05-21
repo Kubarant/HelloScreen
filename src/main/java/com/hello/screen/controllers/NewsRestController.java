@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class NewsRestController {
 
-    private ProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
 
     @Autowired
     public NewsRestController(ProfileRepository profileRepository) {

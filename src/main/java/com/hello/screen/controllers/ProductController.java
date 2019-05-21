@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    private ProfileRepository repository;
+    private final ProfileRepository repository;
 
     @Autowired
     public ProductController(ProfileRepository repository) {

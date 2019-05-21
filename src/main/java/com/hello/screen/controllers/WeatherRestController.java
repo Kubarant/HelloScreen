@@ -18,14 +18,16 @@ import java.util.List;
 @RestController
 public class WeatherRestController {
 
-    @Autowired
-    ReactiveWeatherRepository weatherRepository;
+    private final ReactiveWeatherRepository weatherRepository;
+    private final ReactiveForecastWeatherRepository forecastRepository;
+    private final MongoTemplate template;
 
     @Autowired
-    ReactiveForecastWeatherRepository forecastRepository;
-
-    @Autowired
-    MongoTemplate template;
+    public WeatherRestController(ReactiveWeatherRepository weatherRepository, ReactiveForecastWeatherRepository forecastRepository, MongoTemplate template) {
+        this.weatherRepository = weatherRepository;
+        this.forecastRepository = forecastRepository;
+        this.template = template;
+    }
 
     @GetMapping("/sun")
     public Mono<WeatherData> currentWeather() {

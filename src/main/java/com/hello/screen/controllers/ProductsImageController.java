@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Controller
 public class ProductsImageController {
-    private ProductsImagesReader imagesReader;
+    private final ProductsImagesReader imagesReader;
 
     @Autowired
     public ProductsImageController(ProductsImagesReader imagesReader) {

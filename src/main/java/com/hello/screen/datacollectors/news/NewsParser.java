@@ -1,7 +1,7 @@
 package com.hello.screen.datacollectors.news;
 
 import com.hello.screen.model.News;
-import com.hello.screen.utils.HtmlCharsRemover;
+import com.hello.screen.utils.HtmlEntitiesRemover;
 import io.vavr.collection.List;
 import io.vavr.control.Try;
 import org.jsoup.Jsoup;
@@ -56,7 +56,7 @@ public class NewsParser {
     private Document getDescription(Element el) {
         String description = el.select("description")
                 .html();
-        Document descriptionDoc = Jsoup.parseBodyFragment(HtmlCharsRemover.replaceEntities(description));
+        Document descriptionDoc = Jsoup.parseBodyFragment(HtmlEntitiesRemover.replaceEntities(description));
         descriptionDoc.outputSettings()
                 .escapeMode(Entities.EscapeMode.xhtml);
         return descriptionDoc;

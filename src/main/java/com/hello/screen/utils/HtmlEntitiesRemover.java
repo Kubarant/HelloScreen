@@ -1,6 +1,6 @@
 package com.hello.screen.utils;
 
-public class HtmlCharsRemover {
+public class HtmlEntitiesRemover {
     private static final String HTML_CHARS_REPLACE_REGEX = "&quot;|&amp;|&lt;|&gt;|&deg;|&frasl;|&oacute;";
 
     /**

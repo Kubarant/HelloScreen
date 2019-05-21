@@ -1,4 +1,4 @@
-package com.hello.screen;
+package com.hello.screen.utils;
 
 import org.pmw.tinylog.Logger;
 
@@ -14,19 +14,7 @@ import java.util.Optional;
 
 public class ImageWriter {
 
-    public static String makeValidFileName(String name) {
-        return name.toLowerCase()
-                .replaceAll("ż", "z")
-                .replaceAll("ł", "l")
-                .replaceAll("ó", "o")
-                .replaceAll("ć", "c")
-                .replaceAll("ś", "s")
-                .replaceAll("ź", "z")
-                .replaceAll("ń", "n")
-                .replaceAll("ą", "a")
-                .replaceAll("ę", "e")
-                .replaceAll("[^a-z0-9]", "");
-    }
+
 
     public void writeImage(BufferedImage image, String name, String imagesPath) {
 
@@ -70,5 +58,18 @@ public class ImageWriter {
         }
     }
 
+    public static String makeValidFileName(String name) {
+        return name.toLowerCase()
+                .replaceAll("ż", "z")
+                .replaceAll("ł", "l")
+                .replaceAll("ó", "o")
+                .replaceAll("ć", "c")
+                .replaceAll("ś", "s")
+                .replaceAll("ź", "z")
+                .replaceAll("ń", "n")
+                .replaceAll("ą", "a")
+                .replaceAll("ę", "e")
+                .replaceAll("[^a-z0-9]", "");
+    }
 
 }

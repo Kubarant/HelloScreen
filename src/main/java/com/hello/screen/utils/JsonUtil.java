@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class JsonUtil {
 
-	public static ArrayList<JsonNode> mapToArraylist(JsonNode listNode) {
+    public static ArrayList<JsonNode> mapToArrayList(JsonNode listNode) {
 		ArrayList<JsonNode> result = new ArrayList<>();
 		for (int i = 0; i < listNode.size(); i++) {
 			result.add(listNode.get(i));

@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-public class Initializer {
+public class FirstTimeInitializer {
     public static final String GUEST_PROFILE_NAME = "unknown";
 
     @Value(BiedronkaImageDownloader.IMAGES_DIRECTORY_SPEL)
@@ -25,7 +25,7 @@ public class Initializer {
     private ProfileRepository repository;
 
     @Autowired
-    public Initializer(ProfileRepository repository) {
+    public FirstTimeInitializer(ProfileRepository repository) {
         this.repository = repository;
     }
 

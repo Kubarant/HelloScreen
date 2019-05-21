@@ -1,8 +1,8 @@
 package com.hello.screen.datacollectors.biedronka;
 
-import com.hello.screen.ImageWriter;
 import com.hello.screen.model.Product;
 import com.hello.screen.utils.DocumentDownloadUtil;
+import com.hello.screen.utils.ImageWriter;
 import io.vavr.collection.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

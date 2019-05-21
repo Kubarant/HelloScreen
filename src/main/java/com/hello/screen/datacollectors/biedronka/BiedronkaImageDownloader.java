@@ -1,6 +1,6 @@
 package com.hello.screen.datacollectors.biedronka;
 
-import com.hello.screen.ImageWriter;
+import com.hello.screen.utils.ImageWriter;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import okhttp3.OkHttpClient;

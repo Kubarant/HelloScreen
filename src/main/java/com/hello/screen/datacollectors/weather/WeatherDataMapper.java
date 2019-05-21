@@ -86,7 +86,7 @@ public class WeatherDataMapper {
     public Optional<ArrayList<WeatherData>> forecastWeatherFromJson(String json) {
         Optional<JsonNode> node = stringToJsonNode(json);
         return node.map(n -> n.path("list"))
-                .map(JsonUtil::mapToArraylist)
+                .map(JsonUtil::mapToArrayList)
                 .map(WeatherDataMapper::receiveWeatherDataFromNodes);
 
     }

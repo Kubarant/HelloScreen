@@ -9,7 +9,7 @@ public class HtmlCharsRemover {
      *
      * @return string with HTML special chars replaced as spaces
      */
-    public static String removeSpecials(String dirtyText) {
+    public static String removeEntities(String dirtyText) {
         return dirtyText.replaceAll(HTML_CHARS_REPLACE_REGEX, " ");
     }
 

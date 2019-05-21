@@ -17,17 +17,13 @@ import static org.springframework.http.MediaType.IMAGE_JPEG;
 @Service
 public class ProductsImagesReader {
     @Value(BiedronkaImageDownloader.IMAGES_DIRECTORY_SPEL)
-    String imagesPath;
+    private String imagesPath;
 
-    public byte[] read(String imageName) throws IOException {
-        Path imgPath = Paths.get(imagesPath + File.separator + imageName);
-        return Files.readAllBytes(imgPath);
-    }
 
     public ResponseEntity readImageEntity(String imageName) {
         Try<ResponseEntity<byte[]>> tryReadImage =
                 Try.of(() -> read(imageName))
-                        .map(imageBytes -> prepareImageResponseEntity(imageBytes));
+                        .map(this::prepareImageResponseEntity);
         return tryReadImage.getOrElse(ResponseEntity.badRequest()
                 .build());
     }
@@ -36,5 +32,10 @@ public class ProductsImagesReader {
         return ResponseEntity.ok()
                 .contentType(IMAGE_JPEG)
                 .body(imageBytes);
+    }
+
+    private byte[] read(String imageName) throws IOException {
+        Path imgPath = Paths.get(imagesPath + File.separator + imageName);
+        return Files.readAllBytes(imgPath);
     }
 }

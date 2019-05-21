@@ -14,10 +14,10 @@ public class ChecksumService {
     /**
      * @return checksum calculated basing on hashCode()
      */
-    public <T> boolean areAlreadyInDb(List<T> newobj, List<T> alreadyStoredobj) {
-        int newChecksum = ChecksumUtil.checksumOfHashCodes(newobj);
+    public <T> boolean areAlreadyInDb(List<T> newObject, List<T> alreadyStoredObject) {
+        int newChecksum = ChecksumUtil.checksumOfHashCodes(newObject);
 
-        int storedChecksum = ChecksumUtil.checksumOfHashCodes(alreadyStoredobj);
+        int storedChecksum = ChecksumUtil.checksumOfHashCodes(alreadyStoredObject);
         Logger.debug("Is it already in DB?  {}", newChecksum == storedChecksum);
         return newChecksum == storedChecksum;
     }

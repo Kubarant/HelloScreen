@@ -30,12 +30,12 @@ public class ProfileRegisterService {
 
     public void registerNewUser(ProfileRegistrationDTO registrationDTO) {
         Profile profile = registrationDtoToProfile(registrationDTO);
-        Profile profileWithFeed = setFirstPreferredStuff(profile);
+        Profile profileWithFeed = setInitialFeed(profile);
         profileRepository.save(profileWithFeed)
                 .subscribe();
     }
 
-    public Profile registrationDtoToProfile(ProfileRegistrationDTO registrationDTO) {
+    private Profile registrationDtoToProfile(ProfileRegistrationDTO registrationDTO) {
         Profile profile = new Profile();
         profile.setKeywords(registrationDTO.getKeywords());
         profile.setName(registrationDTO.getName());
@@ -43,14 +43,14 @@ public class ProfileRegisterService {
         return profile;
     }
 
-    public Profile setFirstPreferredStuff(Profile profile) {
+    private Profile setInitialFeed(Profile profile) {
         Profile result = profile;
         List<News> preferredNews = preferredNewsSaver.fitNewsToProfile(result);
         List<Product> products = productRepository.findAll()
                 .collectList()
                 .block();
-        List<Product> prefferedProducts = productChoosingService.filterPrefferedProducts(products, profile.getKeywords());
-        result.setProducts(prefferedProducts);
+        List<Product> preferredProducts = productChoosingService.filterPreferredProducts(products, profile.getKeywords());
+        result.setProducts(preferredProducts);
         result.setNews(preferredNews);
         return result;
     }

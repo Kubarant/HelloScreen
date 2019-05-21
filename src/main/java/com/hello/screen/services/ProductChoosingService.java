@@ -17,18 +17,18 @@ public class ProductChoosingService {
     /**
      * @return products containing any keyword and if it's less than specified in app.properties products it filled to default amount with random products
      */
-    public List<Product> filterPrefferedProducts(List<Product> products, List<String> keywords) {
+    public List<Product> filterPreferredProducts(List<Product> products, List<String> keywords) {
         if (products.isEmpty())
             return Collections.emptyList();
 
         ArrayList<Product> result = extractProductsContainingKeywords(products, keywords);
-        Logger.info("prodsize {}  {} {}", products.size(), result.size(), keywords);
+        Logger.info("Product amount {}  {} {}", products.size(), result.size(), keywords);
         fillWithRandomProductsToFixedSize(products, result, defaultProductsAmount);
         return ListUtil.sublist(result, 0, defaultProductsAmount);
     }
 
-    public List<Product> filterPrefferedProducts(List<Product> products, List<String> keywords, int productsAmount) {
-        List<Product> result = filterPrefferedProducts(products, keywords);
+    public List<Product> filterPreferredProducts(List<Product> products, List<String> keywords, int productsAmount) {
+        List<Product> result = filterPreferredProducts(products, keywords);
         fillWithRandomProductsToFixedSize(products, result, productsAmount);
         return result;
     }
@@ -62,7 +62,6 @@ public class ProductChoosingService {
 
     private List<Product> getRandomProducts(List<Product> products, int amount) {
         HashSet<Product> set = new HashSet<>();
-        ArrayList<Product> result = new ArrayList<>();
         Random random = new Random();
 
         for (int i = 0; set.size() < amount || i < products.size(); i++) {
@@ -70,7 +69,7 @@ public class ProductChoosingService {
             set.add(products.get(rand));
         }
 
-        result.addAll(set);
+        ArrayList<Product> result = new ArrayList<>(set);
         return result;
     }
 }

@@ -5,10 +5,7 @@ import com.hello.screen.model.News;
 import com.hello.screen.utils.ListUtil;
 import org.springframework.stereotype.Service;
 
-import java.util.AbstractMap;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
@@ -18,13 +15,13 @@ public class NewsChooserService {
     private static final int MAXIMUM_NEWS_AMOUNT = 50;
 
     public List<News> choosePreferredNews(Map<String, List<News>> news,
-                                          List<CategoryPreferences> prefferedCategoriess) {
+                                          List<CategoryPreferences> preferredCategories) {
 
         Map<String, Integer> categoryNewsSize = convertToCategorySizeMap(news);
-        Map<String, Integer> newsAmountInGivenCategory = convertToNewsAmountInCategoryMap(prefferedCategoriess, categoryNewsSize);
-        List<News> prefferedNews = chooseNews(news, newsAmountInGivenCategory);
-        Collections.shuffle(prefferedNews);
-        return prefferedNews;
+        Map<String, Integer> newsAmountInGivenCategory = convertToNewsAmountInCategoryMap(preferredCategories, categoryNewsSize);
+        List<News> preferredNews = chooseNews(news, newsAmountInGivenCategory);
+        Collections.shuffle(preferredNews);
+        return preferredNews;
     }
 
     private List<News> chooseNews(Map<String, List<News>> news, Map<String, Integer> newsInCategoryAmount) {
@@ -32,7 +29,7 @@ public class NewsChooserService {
                 .stream()
                 .map(ent -> chooseNewsUsingOnNewsInCategoryEntry(ent, news))
                 .reduce(ListUtil::combine)
-                .get();
+                .orElseGet(ArrayList::new);
     }
 
     private Map<String, Integer> convertToNewsAmountInCategoryMap(List<CategoryPreferences> preferences,

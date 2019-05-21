@@ -28,7 +28,7 @@ public class BiedronkaPreferredProductsSaver {
 
     private Mono<java.util.List<Profile>> saveProfilePreferredProducts(List<Product> products) {
         return repository.findAll()
-                .map(profile -> profile.setProducts(productChooser.filterPrefferedProducts(products.asJava(), profile.getKeywords())))
+                .map(profile -> profile.setProducts(productChooser.filterPreferredProducts(products.asJava(), profile.getKeywords())))
                 .flatMap(prof -> repository.save(prof))
                 .collectList();
     }
